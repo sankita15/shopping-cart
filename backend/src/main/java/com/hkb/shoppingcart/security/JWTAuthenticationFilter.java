@@ -28,23 +28,23 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         this.authenticationManager = authenticationManager;
     }
 
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest req,
-                                                HttpServletResponse res) throws AuthenticationException {
-        try {
-            CartUser creds = new ObjectMapper()
-                    .readValue(req.getInputStream(), CartUser.class);
-
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            creds.getUserName(),
-                            creds.getPassword(),
-                            new ArrayList<>())
-            );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    @Override
+//    public Authentication attemptAuthentication(HttpServletRequest req,
+//                                                HttpServletResponse res) throws AuthenticationException {
+//        try {
+//            CartUser creds = new ObjectMapper()
+//                    .readValue(req.getInputStream(), CartUser.class);
+//
+//            return authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(
+//                            creds.getUserName(),
+//                            creds.getPassword(),
+//                            new ArrayList<>())
+//            );
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @Override
     protected void successfulAuthentication(HttpServletRequest req,

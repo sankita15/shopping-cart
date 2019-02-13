@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
 public class UserNameExistsException extends RuntimeException  {
-    public UserNameExistsException(String userName){
-        super("An account with the username '" + userName + "' already exists");
+    public UserNameExistsException(String username){
+        super("An account with the username '" + username + "' already exists");
     }
 }
 

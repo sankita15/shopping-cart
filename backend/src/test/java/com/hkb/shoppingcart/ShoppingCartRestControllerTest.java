@@ -143,7 +143,7 @@ public class ShoppingCartRestControllerTest {
         logger.debug("---Testing product creation---");
 
         Date date = this.ft.parse("2017-07-04T20:15:55.570Z");
-        List<ShoppingCart> previousTest = this.shoppingCartRepository.findByUserName("testuser");
+        List<ShoppingCart> previousTest = this.shoppingCartRepository.findByUsername("testuser");
 
         for(ShoppingCart cart : previousTest) this.shoppingCartRepository.delete(cart);
 

@@ -16,7 +16,7 @@ export default class LoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: null,
+            username: null,
             password: null,
         };
     }
@@ -24,7 +24,7 @@ export default class LoginPage extends React.Component {
     validate(fieldName, fieldValue) {
         const usernameRex = /^[a-zA-Z0-9]{3,10}$/;
         const passwordRex = /^[a-zA-Z0-9!@#$%^&*]{4,8}$/;
-        const regex = fieldName === 'userName' ? usernameRex : passwordRex;
+        const regex = fieldName === 'username' ? usernameRex : passwordRex;
         return fieldValue.length > 0 && this.handleFieldChange(fieldName, fieldValue, regex);
     }
 
@@ -36,12 +36,12 @@ export default class LoginPage extends React.Component {
     }
 
     canSubmit() {
-        const { userName, password } = this.state;
-        return userName && password;
+        const { username, password } = this.state;
+        return username && password;
     }
 
     render() {
-        const { userName, password } = this.state;
+        const { username, password } = this.state;
         return (
             <div className="login-form">
                 <Container>
@@ -53,11 +53,11 @@ export default class LoginPage extends React.Component {
                                     <Label>Username</Label>
                                     <Input
                                         type="username"
-                                        name="userName"
+                                        name="username"
                                         className="login-form__textfield"
                                         placeholder="Username"
-                                        onChange={e => this.validate('userName', e.target.value)}
-                                        invalid={!userName && userName !== null}
+                                        onChange={e => this.validate('username', e.target.value)}
+                                        invalid={!username && username !== null}
                                     />
                                     <FormFeedback>Snap! your username is not valid</FormFeedback>
                                     <small id="emailHelp" className="form-text text-muted">

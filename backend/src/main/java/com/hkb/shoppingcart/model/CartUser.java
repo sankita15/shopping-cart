@@ -11,15 +11,15 @@ public class CartUser {
 
     public String firstName;
     public String lastName;
-    private String userName;
+    private String username;
     private String password;
     public String email;
 
     public CartUser(){}
 
-    public CartUser(String firstName, String lastName, String userName, String password, String email) {
+    public CartUser(String firstName, String lastName, String username, String password, String email) {
         this.firstName = firstName;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.lastName = lastName;
         this.email = email;
@@ -39,11 +39,11 @@ public class CartUser {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     @Override

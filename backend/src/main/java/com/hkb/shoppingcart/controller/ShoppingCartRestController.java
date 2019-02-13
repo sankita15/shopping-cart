@@ -52,14 +52,14 @@ public class ShoppingCartRestController {
         return new ResponseEntity<List<ShoppingCart>>(carts, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/user/{userName}")
-    ResponseEntity<List<ShoppingCart>> getShoppingCartsByUserName(@PathVariable String userName) {
-        logger.info("---Getting all shopping carts for user '"+ userName +"'---");
-        List<ShoppingCart> carts = this.shoppingCartRepository.findByUserName(userName);
+    @RequestMapping(method = RequestMethod.GET, value = "/user/{username}")
+    ResponseEntity<List<ShoppingCart>> getShoppingCartsByUserName(@PathVariable String username) {
+        logger.info("---Getting all shopping carts for user '"+ username +"'---");
+        List<ShoppingCart> carts = this.shoppingCartRepository.findByUsername(username);
 
         if(carts.isEmpty()){
-            logger.error("---Did not find shopping carts for user '"+ userName +"'---");
-            throw new ShoppingCartListNotFoundException(userName);
+            logger.error("---Did not find shopping carts for user '"+ username +"'---");
+            throw new ShoppingCartListNotFoundException(username);
         }
         return new ResponseEntity<List<ShoppingCart>>(carts, HttpStatus.OK);
     }
@@ -82,7 +82,7 @@ public class ShoppingCartRestController {
         ShoppingCart result = this.shoppingCartRepository.save(
                 new ShoppingCart(
                     ShoppingCart.PENDING,
-                    input.userName,
+                    input.username,
                     input.products,
                     input.productQuantities,
                     input.orderDate,

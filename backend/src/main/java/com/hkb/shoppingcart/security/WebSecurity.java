@@ -29,18 +29,19 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/","/index","/login", "/static/**").permitAll()
-                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                .antMatchers(HttpMethod.POST, "/api/carts").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/carts").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .usernameParameter("userName")
-                    .defaultSuccessUrl("/products", true);
-//                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-//                .addFilter(new JWTAuthorizationFilter(authenticationManager()));
+            .antMatchers(HttpMethod.GET, "/", "/index", "/login", "/static/**").permitAll()
+            .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+            .antMatchers(HttpMethod.POST, "/api/carts").permitAll()
+            .antMatchers(HttpMethod.GET, "/api/carts").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .usernameParameter("username")
+            .defaultSuccessUrl("/products", true)
+            .and()
+            .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+            .addFilter(new JWTAuthorizationFilter(authenticationManager()));
     }
 
     @Override

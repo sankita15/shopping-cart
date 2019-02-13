@@ -19,7 +19,7 @@ public class ShoppingCart {
 
     public String status; //pending, ordered
 
-    public String userName;
+    public String username;
 
     public HashMap<String, Product> products;
 
@@ -36,12 +36,12 @@ public class ShoppingCart {
 
     public ShoppingCart(){}
 
-    public ShoppingCart(String status, String userName,
+    public ShoppingCart(String status, String username,
                         HashMap<String, Product> products,
                         HashMap<String, Integer> productQuantities,
                         Date orderDate, Date lastModified, int totalPrice){
         this.status = status;
-        this.userName = userName;
+        this.username = username;
         this.products = products;
         this.productQuantities = productQuantities;
         this.orderDate = orderDate;

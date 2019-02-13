@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        CartUser cartUser = cartUserRepository.findByUserName(username);
+        CartUser cartUser = cartUserRepository.findByUsername(username);
         if (cartUser == null) {
             throw new UsernameNotFoundException(username);
         }

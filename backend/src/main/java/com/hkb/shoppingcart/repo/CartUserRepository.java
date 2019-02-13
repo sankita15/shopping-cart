@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 public interface CartUserRepository extends MongoRepository<CartUser, String> {
 
     public CartUser findByFirstName(String firstName);
-    public CartUser findByUserName(String userName);
+    public CartUser findByUsername(String username);
     public CartUser findByEmail(String email);
     public List<CartUser> findByLastName(String lastName);
 

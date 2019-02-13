@@ -8,7 +8,7 @@ public class ShoppingCartListNotFoundException extends RuntimeException {
     public ShoppingCartListNotFoundException() {
         super("Could not find any shopping cart.");
     }
-    public ShoppingCartListNotFoundException(String userName) {
-        super("Could not find shopping cart list for user'" + userName + "'.");
+    public ShoppingCartListNotFoundException(String username) {
+        super("Could not find shopping cart list for user'" + username + "'.");
     }
 }

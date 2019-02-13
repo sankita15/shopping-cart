@@ -117,7 +117,7 @@ describe('Login Page', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ 'userName': USERNAME, 'password': PASSWORD }),
+                body: JSON.stringify({ 'username': USERNAME, 'password': PASSWORD }),
             });
         });
     });
