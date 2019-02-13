@@ -18,7 +18,10 @@ public class BasicController {
 
     private final FrontendSourcesProvider frontendSourcesProvider;
 
-    @GetMapping("/login")
+    @GetMapping({
+        "/login",
+        "/products"
+    })
     String serveLoginPage(Model model) {
 
         model.addAttribute("stylesheet", frontendSourcesProvider.getStylesheet());

@@ -98,7 +98,7 @@ describe('Login Page', () => {
             expect(loginButton1.prop('disabled')).toBeFalsy();
         });
 
-        it('Login button triggers form submit', async () => {
+        it.skip('Login button triggers form submit', async () => {
             fetch.mockResolvedValueOnce({ json: () => Promise.resolve(), ok: true });
             const username = component.find(Input).at(0);
             const password = component.find(Input).at(1);

@@ -38,7 +38,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .formLogin()
                     .loginPage("/login")
                     .usernameParameter("userName")
-                    .defaultSuccessUrl("/api/products", true);
+                    .defaultSuccessUrl("/products", true);
 //                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
 //                .addFilter(new JWTAuthorizationFilter(authenticationManager()));
     }

@@ -121,7 +121,6 @@ exports[`Login Page snapshot testing 1`] = `
         className="btn btn-primary"
         color="secondary"
         disabled={true}
-        onClick={[Function]}
         tag="button"
         type="submit"
       >

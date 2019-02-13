@@ -1,5 +1,16 @@
 import React from 'react';
-import { Input, Label, Col, Container, FormGroup, Form, Button, FormFeedback } from 'reactstrap';
+import {
+    Input,
+    Label,
+    Col,
+    Container,
+    FormGroup,
+    Form,
+    Button,
+    FormFeedback,
+    ListGroupItem,
+    ListGroup
+} from 'reactstrap';
 
 export default class LoginPage extends React.Component {
     constructor(props) {
@@ -22,19 +33,6 @@ export default class LoginPage extends React.Component {
         this.setState({
             [fieldName]: result,
         });
-    }
-
-    clickSubmit() {
-        const { userName, password } = this.state;
-
-        fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ userName, password }),
-        }).then(res => (res.ok ? location.href = '/api/products' : Promise.reject(res.status)
-        ));
     }
 
     canSubmit() {
@@ -87,7 +85,7 @@ Password must be more than 4 characters & less than 8
                                 </div>
                             </FormGroup>
                         </Col>
-                        <Button type="submit" disabled={!this.canSubmit()} className="btn btn-primary" onClick={e => this.clickSubmit(e)}>Submit</Button>
+                        <Button type="submit" disabled={!this.canSubmit()} className="btn btn-primary">Submit</Button>
                     </Form>
                 </Container>
             </div>
