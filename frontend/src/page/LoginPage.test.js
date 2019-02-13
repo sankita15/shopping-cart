@@ -102,24 +102,23 @@ describe('Login Page', () => {
             fetch.mockResolvedValueOnce({ json: () => Promise.resolve(), ok: true });
             const username = component.find(Input).at(0);
             const password = component.find(Input).at(1);
-            const formComponent = component.find(Form);
+            const login = component.find(Button);
 
-            username.props().onChange({target: {value: USERNAME}});
-            password.props().onChange({target: {value: PASSWORD}});
+            username.props().onChange({ target: { value: USERNAME } });
+            password.props().onChange({ target: { value: PASSWORD } });
+            login.simulate('click');
 
-            formComponent.props().onSubmit();
             // eslint-disable-next-line no-undef
             await flushPromises();
 
 
-
-            expect(fetch).toHaveBeenCalledWith(`/login`, {
+            expect(fetch).toHaveBeenCalledWith('/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({'userName': USERNAME, 'password': PASSWORD})
-            })
-    });
+                body: JSON.stringify({ 'userName': USERNAME, 'password': PASSWORD }),
+            });
+        });
     });
 });

@@ -9,7 +9,7 @@ exports[`Login Page snapshot testing 1`] = `
   >
     <Form
       action="/login"
-      onSubmit={[Function]}
+      method="post"
       tag="form"
     >
       <Col
@@ -50,7 +50,7 @@ exports[`Login Page snapshot testing 1`] = `
             <Input
               className="login-form__textfield"
               invalid={false}
-              name="username"
+              name="userName"
               onChange={[Function]}
               placeholder="Username"
               type="username"
@@ -121,6 +121,7 @@ exports[`Login Page snapshot testing 1`] = `
         className="btn btn-primary"
         color="secondary"
         disabled={true}
+        onClick={[Function]}
         tag="button"
         type="submit"
       >

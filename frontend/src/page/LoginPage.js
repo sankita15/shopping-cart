@@ -18,24 +18,23 @@ export default class LoginPage extends React.Component {
     }
 
     handleFieldChange(fieldName, fieldValue, regex) {
-        let result = regex.test(fieldValue)? fieldValue : '';
+        const result = regex.test(fieldValue) ? fieldValue : '';
         this.setState({
             [fieldName]: result,
         });
     }
 
-    clickSubmit(){
+    clickSubmit() {
+        const { userName, password } = this.state;
 
-        const { userName,password } = this.state;
-
-        fetch(`/login`, {
+        fetch('/login', {
             method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
+            headers: {
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({userName: userName,password: password})
-        }).then(res => (res.ok ? location.href='/products' : Promise.reject(res.status)
-        ))
+            body: JSON.stringify({ userName, password }),
+        }).then(res => (res.ok ? location.href = '/products' : Promise.reject(res.status)
+        ));
     }
 
     canSubmit() {
@@ -43,16 +42,12 @@ export default class LoginPage extends React.Component {
         return userName && password;
     }
 
-    handleOnSubmit(e) {
-        e.preventDefault();
-    }
-
     render() {
         const { userName, password } = this.state;
         return (
             <div className="login-form">
                 <Container>
-                    <Form onSubmit={(e) => this.handleOnSubmit(e)} >
+                    <Form method="post" action="/login" >
                         <Col>
                             <FormGroup>
                                 <h2>Login Form</h2>
@@ -92,7 +87,7 @@ Password must be more than 4 characters & less than 8
                                 </div>
                             </FormGroup>
                         </Col>
-                        <Button type="submit" disabled={!this.canSubmit()} className="btn btn-primary" onClick={(e) => this.clickSubmit(e)}>Submit</Button>
+                        <Button type="submit" disabled={!this.canSubmit()} className="btn btn-primary" onClick={e => this.clickSubmit(e)}>Submit</Button>
                     </Form>
                 </Container>
             </div>
