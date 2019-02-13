@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping
 @Controller
 @RequiredArgsConstructor
-public class BasicController {
+public class FrontendController {
 
     private final FrontendSourcesProvider frontendSourcesProvider;
 
