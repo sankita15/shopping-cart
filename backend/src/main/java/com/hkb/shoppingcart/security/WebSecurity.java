@@ -31,14 +31,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/","/index","/login", "/static/**").permitAll()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                .antMatchers(HttpMethod.POST, "/carts").permitAll()
-                .antMatchers(HttpMethod.GET, "/carts").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/carts").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/carts").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                     .loginPage("/login")
                     .usernameParameter("userName")
-                    .defaultSuccessUrl("/products", true);
+                    .defaultSuccessUrl("/api/products", true);
 //                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
 //                .addFilter(new JWTAuthorizationFilter(authenticationManager()));
     }

@@ -18,7 +18,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductRestController {
 
     private final ProductRepository productRepository;
@@ -58,7 +58,7 @@ public class ProductRestController {
                         input.getStock()
                 ));
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/products/{id}").buildAndExpand(result.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/api/products/{id}").buildAndExpand(result.getId()).toUri());
         return new ResponseEntity<Product>(result, headers, HttpStatus.CREATED);
     }
 

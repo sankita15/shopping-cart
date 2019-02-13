@@ -132,7 +132,7 @@ public class ShoppingCartRestControllerTest {
     @Test
     public void shoppingCartNotFound() throws Exception {
         logger.debug("---Testing shopping cart not found response---");
-        mockMvc.perform(get("/carts/0")
+        mockMvc.perform(get("/api/carts/0")
                 .content(this.json(new ShoppingCart()))
                 .contentType(contentType))
                 .andExpect(status().isNotFound());
@@ -195,7 +195,7 @@ public class ShoppingCartRestControllerTest {
                         0
                         ));
 
-        this.mockMvc.perform(post("/carts")
+        this.mockMvc.perform(post("/api/carts")
                 .contentType(contentType).content(cartJson))
                 .andExpect(status().isCreated());
     }

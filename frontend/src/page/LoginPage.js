@@ -33,7 +33,7 @@ export default class LoginPage extends React.Component {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ userName, password }),
-        }).then(res => (res.ok ? location.href = '/products' : Promise.reject(res.status)
+        }).then(res => (res.ok ? location.href = '/api/products' : Promise.reject(res.status)
         ));
     }
 

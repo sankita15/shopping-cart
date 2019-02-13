@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/carts")
+@RequestMapping("/api/carts")
 public class ShoppingCartRestController {
 
     private final ShoppingCartRepository shoppingCartRepository;
@@ -91,7 +91,7 @@ public class ShoppingCartRestController {
                 ));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(ucBuilder.path("/carts/{id}").buildAndExpand(result.getId()).toUri());
+        headers.setLocation(ucBuilder.path("/api/carts/{id}").buildAndExpand(result.getId()).toUri());
         return new ResponseEntity<ShoppingCart>(result, headers, HttpStatus.CREATED);
     }
 

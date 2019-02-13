@@ -107,7 +107,7 @@ public class ProductRestControllerTest {
     @Test
     public void productNotFound() throws Exception {
         logger.debug("---Testing product not found response---");
-        mockMvc.perform(get("/products/0/")
+        mockMvc.perform(get("/api/products/0/")
                 .content(this.json(new Product()))
                 .contentType(contentType))
                 .andExpect(status().isNotFound());
@@ -131,7 +131,7 @@ public class ProductRestControllerTest {
                         600
                         ));
 
-        this.mockMvc.perform(post("/products")
+        this.mockMvc.perform(post("/api/products")
                 .contentType(contentType).content(productJson))
         .andExpect(status().isCreated());
     }
