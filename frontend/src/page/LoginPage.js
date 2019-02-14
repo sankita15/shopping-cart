@@ -7,9 +7,7 @@ import {
     FormGroup,
     Form,
     Button,
-    FormFeedback,
-    ListGroupItem,
-    ListGroup
+    FormFeedback
 } from 'reactstrap';
 
 export default class LoginPage extends React.Component {

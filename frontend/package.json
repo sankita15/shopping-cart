@@ -23,7 +23,6 @@
   "dependencies": {
     "bootstrap": "^4.2.1",
     "eslint": "^5.13.0",
-    "prop-types": "latest",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.3.1",
@@ -56,6 +55,7 @@
     "jest": "^24.1.0",
     "jest-fetch-mock": "^2.1.0",
     "node-sass": "^4.11.0",
+    "prop-types": "^15.7.1",
     "react-router": "^4.3.1",
     "sass-loader": "^7.1.0",
     "webpack": "^4.29.2",

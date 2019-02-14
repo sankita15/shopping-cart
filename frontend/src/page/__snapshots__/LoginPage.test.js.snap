@@ -50,7 +50,7 @@ exports[`Login Page snapshot testing 1`] = `
             <Input
               className="login-form__textfield"
               invalid={false}
-              name="userName"
+              name="username"
               onChange={[Function]}
               placeholder="Username"
               type="username"
