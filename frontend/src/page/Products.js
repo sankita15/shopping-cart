@@ -11,19 +11,17 @@ export default class Products extends React.Component {
         }
     }
 
-    renderProducts() {
+    componentDidMount() {
 
         fetch("/api/products", {
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             }
-        }).then(res => res.ok ? res.json() : Promise.reject(res.status))
+        })
+            .then(res => res.ok ? res.json() : Promise.reject(res.status))
             .then(products => this.setState({products}))
-    }
-
-    componentDidMount() {
-        this.renderProducts();
+            .catch((e)=>console.warn(e));
     }
 
     render() {
@@ -31,7 +29,7 @@ export default class Products extends React.Component {
 
         return (
             <div className="product-login">
-                { products.map( (itemDetails) => (<Item item={itemDetails}  />))}
+                {products.map((itemDetails) => (<Item item={itemDetails} key={itemDetails.id}/>))}
             </div>
         )
 

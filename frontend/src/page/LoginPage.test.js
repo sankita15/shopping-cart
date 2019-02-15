@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Input, Button, Form } from 'reactstrap';
+import { Input, Button } from 'reactstrap';
 import LoginPage from './LoginPage';
 
 describe('Login Page', () => {
@@ -17,6 +17,10 @@ describe('Login Page', () => {
     const createWrapper = props => shallow(<LoginPage {...defaultProps} {...props} />);
 
     const component = createWrapper();
+
+    afterEach(() => {
+        fetch.mockReset();
+    });
 
     it('snapshot testing', () => {
         expect(component).toMatchSnapshot();

@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 
 export default class Item extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
-    showProductDetail(){
+    showProductDetail() {
         return "http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png";
     }
 
@@ -16,7 +16,7 @@ export default class Item extends React.Component {
         const {item} = this.props;
         return (
             <a href={this.showProductDetail()}>
-            <div className="item-page">
+                <div className="item-page">
                     <Card className="item-card">
                         <CardImg top width="100%" className="item-image" src={item.imageUrl}/>
                         <CardBody className="item-body">
@@ -25,7 +25,7 @@ export default class Item extends React.Component {
                             <CardText>{item.description}</CardText>
                         </CardBody>
                     </Card>
-            </div>
+                </div>
             </a>
         )
     }
