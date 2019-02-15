@@ -1,11 +1,11 @@
 .item-page {
 
   width: 25%;
-  height: 400px;
+  height: 341px;
   float: left;
 
   .item-card {
-    margin: 15px;
+    margin: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transition: 0.3s;
 
@@ -13,6 +13,10 @@
       width: 200px;
       height: 200px;
       margin-left: 70px;
+    }
+
+    .item-body{
+      color: black;
     }
 
     .btn-secondary {
