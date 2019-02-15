@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import LoginPage from './page/LoginPage';
-import Products from "./page/Products";
+import Products from './page/Products';
 
 
 const Page = () => (

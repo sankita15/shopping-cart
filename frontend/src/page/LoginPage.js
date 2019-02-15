@@ -7,7 +7,7 @@ import {
     FormGroup,
     Form,
     Button,
-    FormFeedback
+    FormFeedback,
 } from 'reactstrap';
 
 export default class LoginPage extends React.Component {
@@ -43,7 +43,7 @@ export default class LoginPage extends React.Component {
         return (
             <div className="login-form">
                 <Container>
-                    <Form method="post" action="/login" >
+                    <Form method="post" action="/login">
                         <Col>
                             <FormGroup>
                                 <h2>Login Form</h2>
