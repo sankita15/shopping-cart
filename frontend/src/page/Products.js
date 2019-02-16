@@ -27,7 +27,11 @@ export default class Products extends React.Component {
 
         return (
             <div className="product-login">
-                {products.map(itemDetails => (<Item item={itemDetails} key={itemDetails.id} />))}
+                {products.map(itemDetails => (<Item productName={itemDetails.productName}
+                                                    price={itemDetails.price}
+                                                    description={itemDetails.description}
+                                                    imageUrl={itemDetails.imageUrl}
+                                                    key={itemDetails.id} />))}
             </div>
         );
     }
