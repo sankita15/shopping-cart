@@ -30,8 +30,8 @@ export default class Item extends React.Component {
 }
 
 Item.propTypes = {
-    productName: PropTypes.string,
+    productName: PropTypes.string.isRequired,
     description: PropTypes.string,
-    price: PropTypes.number,
-    imageUrl: PropTypes.string,
+    price: PropTypes.number.isRequired,
+    imageUrl: PropTypes.string.isRequired,
 };
