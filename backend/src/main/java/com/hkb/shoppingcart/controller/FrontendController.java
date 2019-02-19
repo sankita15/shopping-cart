@@ -20,23 +20,11 @@ public class FrontendController {
     private final FrontendSourcesProvider frontendSourcesProvider;
 
     @GetMapping({
+        "/login",
+        "/products",
         "/products/{id}"
     })
-    String serveProductPage(@PathVariable("id") String id, Model model) {
-
-        return page(model);
-    }
-
-    @GetMapping({
-        "/login",
-        "/products"
-    })
     String serveLoginPage(Model model) {
-
-        return page(model);
-    }
-
-    String page(Model model) {
 
         model.addAttribute("stylesheet", frontendSourcesProvider.getStylesheet());
         model.addAttribute("mainScript", frontendSourcesProvider.getMainScript());
