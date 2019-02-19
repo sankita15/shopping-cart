@@ -31,6 +31,7 @@ export default class Products extends React.Component {
                                                     price={itemDetails.price}
                                                     description={itemDetails.description}
                                                     imageUrl={itemDetails.imageUrl}
+                                                    id={itemDetails.id}
                                                     key={itemDetails.id} />))}
             </div>
         );

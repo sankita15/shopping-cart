@@ -2,7 +2,8 @@
 
 exports[`Item page should match snapshot 1`] = `
 <a
-  href="http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png"
+  href=""
+  onClick={[Function]}
 >
   <div
     className="item-page"

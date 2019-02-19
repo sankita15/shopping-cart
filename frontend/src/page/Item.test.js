@@ -5,6 +5,7 @@ import Item from './Item';
 
 describe('Item page', () => {
     const defaultProps = {
+        id: '5c61496906057ea38af387cd',
         productName: 'Leaf Rake',
         description: 'Leaf rake with 48-inch wooden handle.',
         price: 1995,
@@ -31,5 +32,12 @@ describe('Item page', () => {
         const component = createWrapper();
 
         expect(component).toMatchSnapshot();
+    });
+
+    it('should redirect to product details on clicking of product card',  () => {
+        const component = createWrapper();
+        const anchorClick = component.find('a').prop('href');
+
+        expect(anchorClick).toBe(`/products/${defaultProps.id}`);
     });
 });

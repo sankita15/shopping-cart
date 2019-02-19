@@ -3,17 +3,18 @@ import { Card, CardImg, CardBody, CardTitle, CardText, CardSubtitle } from 'reac
 import PropTypes from 'prop-types';
 
 export default class Item extends React.Component {
-    static showProductDetail() {
-        return 'http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png';
+    showProductDetail() {
+        const { id } = this.props;
+        return `/products/${id}`;
     }
 
     render() {
         const { imageUrl, description, price, productName } = this.props;
         return (
-            <a href={Item.showProductDetail()}>
+                <a href={this.showProductDetail()}>
                 <div className="item-page">
                     <Card className="item-card">
-                        <CardImg top width="100%" className="item-image" src={imageUrl} />
+                        <CardImg top width="100%" className="item-image1" src={imageUrl} />
                         <CardBody className="item-body">
                             <CardTitle>{productName}</CardTitle>
                             <CardSubtitle>
