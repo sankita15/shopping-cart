@@ -5,6 +5,13 @@ exports[`Item Description Page should match snapshot 1`] = `
   className="item-detail-page"
 >
   <div
+    className="cart-icon"
+  >
+    <FaCartPlus
+      size={45}
+    />
+  </div>
+  <div
     className="item-image"
   >
     <Media

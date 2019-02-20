@@ -2,8 +2,7 @@
 
 exports[`Item page should match snapshot 1`] = `
 <a
-  href=""
-  onClick={[Function]}
+  href="/products/5c61496906057ea38af387cd"
 >
   <div
     className="item-page"
@@ -13,7 +12,7 @@ exports[`Item page should match snapshot 1`] = `
       tag="div"
     >
       <CardImg
-        className="item-image"
+        className="item-image1"
         src="http://openclipart.org/image/300px/svg_to_png/26215/Anonymous_Leaf_Rake.png"
         tag="img"
         top={true}

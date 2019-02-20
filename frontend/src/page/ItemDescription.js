@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Media, Label, Button } from 'reactstrap';
+import { FaCartPlus } from 'react-icons/fa'
 
 export default class ItemDescription extends React.Component {
 
@@ -40,6 +41,9 @@ export default class ItemDescription extends React.Component {
 
         return (
             <div className="item-detail-page">
+                <div className="cart-icon">
+                    <FaCartPlus size={45}/>
+                </div>
                 <div className="item-image">
                     <Media src={imageUrl} alt={productName}/>
                 </div>
