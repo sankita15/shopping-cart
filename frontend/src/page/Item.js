@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, CardImg, CardBody, CardTitle, CardText, CardSubtitle } from 'reactstrap';
-import PropTypes from 'prop-types';
+import * as PropTypes from 'prop-types';
 
 export default class Item extends React.Component {
+
     showProductDetail() {
         const { id } = this.props;
         return `/products/${id}`;
@@ -35,4 +36,5 @@ Item.propTypes = {
     description: PropTypes.string,
     price: PropTypes.number.isRequired,
     imageUrl: PropTypes.string.isRequired,
+    cookies: PropTypes.string
 };

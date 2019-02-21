@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Media, Label, Button } from 'reactstrap';
-import { FaCartPlus } from 'react-icons/fa'
+import { FaCartPlus } from 'react-icons/fa';
 
 export default class ItemDescription extends React.Component {
 

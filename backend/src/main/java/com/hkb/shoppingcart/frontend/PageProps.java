@@ -7,5 +7,5 @@ import lombok.Value;
 @Value
 @Builder(toBuilder = true)
 public class PageProps {
-    @NonNull String baseUrl;
+    String cookies;
 }

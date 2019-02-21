@@ -10,7 +10,11 @@ import {
     FormFeedback,
 } from 'reactstrap';
 
+import  PropTypes from 'prop-types';
+
+
 export default class LoginPage extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -90,3 +94,7 @@ Password must be more than 4 characters & less than 8
         );
     }
 }
+
+LoginPage.propTypes = {
+    cookies: PropTypes.string
+};

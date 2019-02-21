@@ -1,9 +1,11 @@
 package com.hkb.shoppingcart.controller;
 
 import com.hkb.shoppingcart.frontend.FrontendSourcesProvider;
+import com.hkb.shoppingcart.frontend.PageProps;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,10 +24,12 @@ public class FrontendController {
     @GetMapping({
         "/login",
         "/products",
-        "/products/{id}"
+        "/products/{id}",
+        "/carts"
     })
     String serveLoginPage(Model model) {
-
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("pageProps", PageProps.builder().cookies(username).build());
         model.addAttribute("stylesheet", frontendSourcesProvider.getStylesheet());
         model.addAttribute("mainScript", frontendSourcesProvider.getMainScript());
 

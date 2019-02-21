@@ -5,6 +5,7 @@
         <link th:href="${stylesheet}" rel="stylesheet"/>
         <script th:inline="javascript">
             var mainScriptSource = /*[[${mainScript}]]*/ '';
+            window.pageProps = /*[[${pageProps}]]*/ {};
 
             var injectScript = function (scriptSource) {
                 var script = document.createElement('script');

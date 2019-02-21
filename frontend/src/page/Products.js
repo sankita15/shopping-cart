@@ -1,5 +1,6 @@
 import React from 'react';
 import Item from './Item';
+import * as PropTypes from 'prop-types';
 
 export default class Products extends React.Component {
     constructor(props) {
@@ -37,3 +38,7 @@ export default class Products extends React.Component {
         );
     }
 }
+
+Products.propTypes = {
+    cookies: PropTypes.string
+};
