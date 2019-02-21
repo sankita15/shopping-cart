@@ -1,12 +1,12 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import Cart from './Cart'
-import { Table } from 'reactstrap'
+import { Table, Label } from 'reactstrap'
 
 describe('carts page',  () => {
 
     const defaultProps = {
-        username : 'alice'
+        cookies : 'alice'
     };
 
     const cart = {
@@ -45,37 +45,48 @@ describe('carts page',  () => {
         totalPrice: 547
     };
 
-    const getCookie = jest.fn();
+    const createWrapper = () => shallow(<Cart {...defaultProps}/>);
 
-    const createWrapper = () => shallow(<Cart />);
+    const component = createWrapper();
+    component.setState({
+       cartEmpty: false
+    });
 
     it('should match snapshot',  () => {
-        const component = createWrapper();
 
         expect(component).toMatchSnapshot();
     });
 
-    it('should render carts page',  () => {
-        const component = createWrapper();
+    it('should render carts page when cart is not empty',  () => {
 
         const table = component.find(Table);
 
         expect(table.length).toBe(1);
     });
 
+    it('should render cart empty info when cart is empty',  () => {
+        component.setState({
+            cartEmpty: true
+        });
+
+        component.update();
+
+        const message = component.find(Label);
+
+        expect(message.length).toBe(1);
+    });
+
     it('should call fetch for /carts',  () => {
         fetch.mockResolvedValueOnce({json : () => Promise.resolve(cart) , ok:true});
-        getCookie.mockImplementation(value => Promise.resolve(value));
-        const component = createWrapper();
 
-        //expect(getCookie).toHaveBeenCalled();
-
-        expect(fetch).toHaveBeenCalledWith(`/api/carts/user/${defaultProps.username}`, {
+        expect(fetch).toHaveBeenCalledWith(`/api/carts/user/${defaultProps.cookies}`, {
             credentials: 'include',
             headers: {
                 "Content-Type": "application/json"
             }
         })
+
+
     });
 
 });

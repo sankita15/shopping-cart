@@ -30,7 +30,6 @@ export default class Cart extends React.Component{
             }
         }).then( res => res.ok ? res.json() : Promise.reject(res.status))
             .then( cart => { this.setState({cart, cartEmpty: false}) })
-            .then(cart => console.log(cart,"inside promise resolve"))
             .catch(status => console.warn(status))
     }
 
