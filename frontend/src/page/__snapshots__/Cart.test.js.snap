@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`carts page should match snapshot 1`] = `
+<div>
+  <Label
+    tag="label"
+    widths={
+      Array [
+        "xs",
+        "sm",
+        "md",
+        "lg",
+        "xl",
+      ]
+    }
+  >
+    Your Shopping cart
+  </Label>
+  <Table
+    responsiveTag="div"
+    tag="table"
+  >
+    <tbody>
+      <tr>
+        <td>
+          <Media
+            src="http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png"
+          />
+        </td>
+        <td>
+          <Label
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            Hammer
+          </Label>
+          <br />
+          <Label
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            Rs. 
+            0
+          </Label>
+        </td>
+        <td>
+          <FaPlusSquare />
+          <Label
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            3
+          </Label>
+          <FaMinusSquare />
+        </td>
+      </tr>
+    </tbody>
+  </Table>
+</div>
+`;
