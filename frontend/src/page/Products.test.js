@@ -39,12 +39,13 @@ describe('Product page', () => {
         fetch.resetMocks();
     });
 
-    it('should match snapshot of Product page', () => {
-        // fetch.mockResolvedValueOnce({json: () => Promise.resolve([]), ok:true});
+    it('should match snapshot of Product page', async () => {
+        fetch.mockResolvedValueOnce({ json: () => Promise.resolve([]), ok: true });
 
         const component = createWrapper();
 
-        // await flushPromises();
+        // eslint-disable-next-line no-undef
+        await flushPromises();
 
         expect(component).toMatchSnapshot();
     });

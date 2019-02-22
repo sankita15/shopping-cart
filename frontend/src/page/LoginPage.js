@@ -10,11 +10,7 @@ import {
     FormFeedback,
 } from 'reactstrap';
 
-import  PropTypes from 'prop-types';
-
-
 export default class LoginPage extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -63,7 +59,7 @@ export default class LoginPage extends React.Component {
                                     />
                                     <FormFeedback>Snap! your username is not valid</FormFeedback>
                                     <small id="emailHelp" className="form-text text-muted">
-                                        { 'We\'ll never share your email with anyone else.'}
+                                        {'We\'ll never share your email with anyone else.'}
                                     </small>
                                 </div>
                             </FormGroup>
@@ -81,7 +77,7 @@ export default class LoginPage extends React.Component {
                                         invalid={!password && password !== null}
                                     />
                                     <FormFeedback>
-Password must be more than 4 characters & less than 8
+                                        Password must be more than 4 characters & less than 8
                                         characters
                                     </FormFeedback>
                                 </div>
@@ -94,7 +90,3 @@ Password must be more than 4 characters & less than 8
         );
     }
 }
-
-LoginPage.propTypes = {
-    cookies: PropTypes.string
-};

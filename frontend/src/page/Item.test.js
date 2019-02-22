@@ -34,7 +34,7 @@ describe('Item page', () => {
         expect(component).toMatchSnapshot();
     });
 
-    it('should redirect to product details on clicking of product card',  () => {
+    it('should redirect to product details on clicking of product card', () => {
         const component = createWrapper();
         const anchorClick = component.find('a').prop('href');
 

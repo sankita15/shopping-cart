@@ -21,46 +21,32 @@ exports[`carts page should match snapshot 1`] = `
     tag="table"
   >
     <tbody>
-      <tr>
+      <tr
+        key="59d89875479ded2a718bac13"
+      >
         <td>
-          <Media
-            src="http://openclipart.org/image/300px/svg_to_png/73/rejon_Hammer.png"
-          />
+          <a
+            href="/products/59d89875479ded2a718bac13"
+            target="_blank"
+          >
+            <Media
+              className="cart-image"
+              src="http://colgate.com/2/"
+            />
+          </a>
         </td>
         <td>
-          <Label
-            tag="label"
-            widths={
-              Array [
-                "xs",
-                "sm",
-                "md",
-                "lg",
-                "xl",
-              ]
-            }
+          <a
+            className="cart-product-name"
+            href="/products/59d89875479ded2a718bac13"
+            target="_blank"
           >
-            Hammer
-          </Label>
-          <br />
-          <Label
-            tag="label"
-            widths={
-              Array [
-                "xs",
-                "sm",
-                "md",
-                "lg",
-                "xl",
-              ]
-            }
-          >
-            Rs. 
-            0
-          </Label>
+            colgatewhite
+          </a>
         </td>
-        <td>
-          <FaPlusSquare />
+        <td
+          className="cart-item-price"
+        >
           <Label
             tag="label"
             widths={
@@ -73,9 +59,100 @@ exports[`carts page should match snapshot 1`] = `
               ]
             }
           >
+            Rs.
+             
             3
           </Label>
-          <FaMinusSquare />
+        </td>
+        <td>
+          <FaPlusSquare
+            className="cart-plus"
+          />
+          <Label
+            className="cart-quantity-label"
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            1
+          </Label>
+          <FaMinusSquare
+            className="cart-minus"
+          />
+        </td>
+      </tr>
+      <tr
+        key="59d89875479ded2a718bac14"
+      >
+        <td>
+          <a
+            href="/products/59d89875479ded2a718bac14"
+            target="_blank"
+          >
+            <Media
+              className="cart-image"
+              src="http://gilette.com/2/"
+            />
+          </a>
+        </td>
+        <td>
+          <a
+            className="cart-product-name"
+            href="/products/59d89875479ded2a718bac14"
+            target="_blank"
+          >
+            gilettemousse
+          </a>
+        </td>
+        <td
+          className="cart-item-price"
+        >
+          <Label
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            Rs.
+             
+            2
+          </Label>
+        </td>
+        <td>
+          <FaPlusSquare
+            className="cart-plus"
+          />
+          <Label
+            className="cart-quantity-label"
+            tag="label"
+            widths={
+              Array [
+                "xs",
+                "sm",
+                "md",
+                "lg",
+                "xl",
+              ]
+            }
+          >
+            2
+          </Label>
+          <FaMinusSquare
+            className="cart-minus"
+          />
         </td>
       </tr>
     </tbody>

@@ -1,6 +1,5 @@
 import React from 'react';
 import Item from './Item';
-import * as PropTypes from 'prop-types';
 
 export default class Products extends React.Component {
     constructor(props) {
@@ -28,17 +27,17 @@ export default class Products extends React.Component {
 
         return (
             <div className="product-login">
-                {products.map(itemDetails => (<Item productName={itemDetails.productName}
-                                                    price={itemDetails.price}
-                                                    description={itemDetails.description}
-                                                    imageUrl={itemDetails.imageUrl}
-                                                    id={itemDetails.id}
-                                                    key={itemDetails.id} />))}
+                {products.map(itemDetails => (
+                    <Item
+                        productName={itemDetails.productName}
+                        price={itemDetails.price}
+                        description={itemDetails.description}
+                        imageUrl={itemDetails.imageUrl}
+                        id={itemDetails.id}
+                        key={itemDetails.id}
+                    />
+                ))}
             </div>
         );
     }
 }
-
-Products.propTypes = {
-    cookies: PropTypes.string
-};

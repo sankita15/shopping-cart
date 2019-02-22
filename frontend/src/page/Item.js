@@ -3,7 +3,6 @@ import { Card, CardImg, CardBody, CardTitle, CardText, CardSubtitle } from 'reac
 import * as PropTypes from 'prop-types';
 
 export default class Item extends React.Component {
-
     showProductDetail() {
         const { id } = this.props;
         return `/products/${id}`;
@@ -12,7 +11,7 @@ export default class Item extends React.Component {
     render() {
         const { imageUrl, description, price, productName } = this.props;
         return (
-                <a href={this.showProductDetail()}>
+            <a href={this.showProductDetail()}>
                 <div className="item-page">
                     <Card className="item-card">
                         <CardImg top width="100%" className="item-image1" src={imageUrl} />
@@ -32,9 +31,9 @@ export default class Item extends React.Component {
 }
 
 Item.propTypes = {
+    id: PropTypes.string.isRequired,
     productName: PropTypes.string.isRequired,
     description: PropTypes.string,
     price: PropTypes.number.isRequired,
     imageUrl: PropTypes.string.isRequired,
-    cookies: PropTypes.string
 };

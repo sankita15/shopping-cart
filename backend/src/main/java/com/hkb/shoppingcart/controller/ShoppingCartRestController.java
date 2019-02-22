@@ -92,6 +92,8 @@ public class ShoppingCartRestController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/api/carts/{id}").buildAndExpand(result.getId()).toUri());
+        System.out.println(result.username+result.totalPrice+"$$$$$$$$$$$$$$$$$$$");
+
         return new ResponseEntity<ShoppingCart>(result, headers, HttpStatus.CREATED);
     }
 
@@ -150,7 +152,7 @@ public class ShoppingCartRestController {
 
         ShoppingCart updated = this.shoppingCartRepository.save(cart);
         this.productRepository.save(product);
-        
+
         return new ResponseEntity<ShoppingCart>(updated, HttpStatus.OK);
     }
 
