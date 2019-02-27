@@ -13,6 +13,9 @@ import Cart from './page/Cart';
 const Page = props => (
     <Router>
         <Switch>
+            <Route exact path="/">
+                <Products {...props} />
+            </Route>
             <Route exact path="/login">
                 <LoginPage {...props} />
             </Route>

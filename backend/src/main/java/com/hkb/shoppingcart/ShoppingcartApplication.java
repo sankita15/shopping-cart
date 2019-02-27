@@ -64,6 +64,10 @@ public class ShoppingcartApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+
+		if(!DEFAULT_PROFILE.equals(ShoppingcartApplication.environmentProfile()))
+			return null;
+
 			return args -> {
 
 					BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

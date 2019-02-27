@@ -22,6 +22,7 @@ public class FrontendController {
     private final FrontendSourcesProvider frontendSourcesProvider;
 
     @GetMapping({
+        "/",
         "/login",
         "/products",
         "/products/{id}",
