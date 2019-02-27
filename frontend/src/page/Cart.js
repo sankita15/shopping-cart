@@ -60,11 +60,11 @@ export default class Cart extends React.Component {
                     </Label>
                 </td>
                 <td>
-                    <FaPlusSquare className="cart-plus" onClick={() => this.addProductToCart(id)} />
+                    <FaMinusSquare className="cart-minus" onClick={() => this.reduceProductFromCart(id)} />
                     <Label className="cart-quantity-label">
                         {productQuantity}
                     </Label>
-                    <FaMinusSquare className="cart-minus" onClick={() => this.reduceProductFromCart(id)} />
+                    <FaPlusSquare className="cart-plus" onClick={() => this.addProductToCart(id)} />
                 </td>
             </tr>
         );
