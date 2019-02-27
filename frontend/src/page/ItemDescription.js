@@ -78,7 +78,7 @@ export default class ItemDescription extends React.Component {
             method: 'POST',
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(cartDetails => this.setState({ cartDetails: cartDetails[0] }))
+            .then(cartDetails => this.setState({ cartDetails }))
             .catch(status => console.warn(status));
 
         window.location.assign('/carts');

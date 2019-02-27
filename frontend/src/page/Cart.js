@@ -52,7 +52,7 @@ export default class Cart extends React.Component {
                         {productName}
                     </a>
                 </td>
-                <td className="cart-item-price">
+                <td>
                     <Label>
                     Rs.
                         {' '}
@@ -60,11 +60,11 @@ export default class Cart extends React.Component {
                     </Label>
                 </td>
                 <td>
-                    <FaPlusSquare className="cart-plus" />
+                    <FaPlusSquare className="cart-plus" onClick={() => this.addProductToCart(id)} />
                     <Label className="cart-quantity-label">
                         {productQuantity}
                     </Label>
-                    <FaMinusSquare className="cart-minus" />
+                    <FaMinusSquare className="cart-minus" onClick={() => this.reduceProductFromCart(id)} />
                 </td>
             </tr>
         );
@@ -79,16 +79,61 @@ export default class Cart extends React.Component {
             <div>
                 <Label>Your Shopping cart</Label>
                 <Table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
                     <tbody>{this.getRows()}</tbody>
                 </Table>
+                <div className="table-row">
+                    <Label className="table-final-row">
+                        {`SubTotal: ${this.getTotalPrice()}`}
+                    </Label>
+                </div>
             </div>
         );
     }
 
     isCartEmpty() {
         const { cart } = this.state;
-
         return !cart.products || Object.keys(cart.products).length === 0;
+    }
+
+    addProductToCart(productId) {
+        const { cart: { id: cartId } } = this.state;
+
+        fetch(`/api/carts/${cartId}/product/${productId}`, {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(res => (res.ok ? res.json() : Promise.reject(res.status)))
+            .then(cartDetails => this.setState({ cart: cartDetails }))
+            .catch(status => console.warn(status));
+    }
+
+    reduceProductFromCart(productId) {
+        const { cart: { id: cartId } } = this.state;
+
+        fetch(`/api/carts/${cartId}/product/${productId}`, {
+            credentials: 'include',
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(res => (res.ok ? res.json() : Promise.reject(res.status)))
+            .then(cartDetails => this.setState({ cart: cartDetails }))
+            .catch(status => console.warn(status));
+    }
+
+    getTotalPrice() {
+        const { cart } = this.state;
+        return cart.totalPrice;
     }
 }
 

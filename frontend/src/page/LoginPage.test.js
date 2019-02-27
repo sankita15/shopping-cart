@@ -101,28 +101,5 @@ describe('Login Page', () => {
 
             expect(loginButton1.prop('disabled')).toBeFalsy();
         });
-
-        it.skip('Login button triggers form submit', async () => {
-            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(), ok: true });
-            const username = component.find(Input).at(0);
-            const password = component.find(Input).at(1);
-            const login = component.find(Button);
-
-            username.props().onChange({ target: { value: USERNAME } });
-            password.props().onChange({ target: { value: PASSWORD } });
-            login.simulate('click');
-
-            // eslint-disable-next-line no-undef
-            await flushPromises();
-
-
-            expect(fetch).toHaveBeenCalledWith('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 'username': USERNAME, 'password': PASSWORD }),
-            });
-        });
     });
 });

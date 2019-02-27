@@ -20,6 +20,22 @@ exports[`carts page should match snapshot 1`] = `
     responsiveTag="div"
     tag="table"
   >
+    <thead>
+      <tr>
+        <th>
+          Product
+        </th>
+        <th>
+          Name
+        </th>
+        <th>
+          Price
+        </th>
+        <th>
+          Quantity
+        </th>
+      </tr>
+    </thead>
     <tbody>
       <tr
         key="59d89875479ded2a718bac13"
@@ -44,9 +60,7 @@ exports[`carts page should match snapshot 1`] = `
             colgatewhite
           </a>
         </td>
-        <td
-          className="cart-item-price"
-        >
+        <td>
           <Label
             tag="label"
             widths={
@@ -61,12 +75,13 @@ exports[`carts page should match snapshot 1`] = `
           >
             Rs.
              
-            3
+            300
           </Label>
         </td>
         <td>
           <FaPlusSquare
             className="cart-plus"
+            onClick={[Function]}
           />
           <Label
             className="cart-quantity-label"
@@ -81,10 +96,11 @@ exports[`carts page should match snapshot 1`] = `
               ]
             }
           >
-            1
+            2
           </Label>
           <FaMinusSquare
             className="cart-minus"
+            onClick={[Function]}
           />
         </td>
       </tr>
@@ -111,9 +127,7 @@ exports[`carts page should match snapshot 1`] = `
             gilettemousse
           </a>
         </td>
-        <td
-          className="cart-item-price"
-        >
+        <td>
           <Label
             tag="label"
             widths={
@@ -128,12 +142,13 @@ exports[`carts page should match snapshot 1`] = `
           >
             Rs.
              
-            2
+            200
           </Label>
         </td>
         <td>
           <FaPlusSquare
             className="cart-plus"
+            onClick={[Function]}
           />
           <Label
             className="cart-quantity-label"
@@ -152,10 +167,30 @@ exports[`carts page should match snapshot 1`] = `
           </Label>
           <FaMinusSquare
             className="cart-minus"
+            onClick={[Function]}
           />
         </td>
       </tr>
     </tbody>
   </Table>
+  <div
+    className="table-row"
+  >
+    <Label
+      className="table-final-row"
+      tag="label"
+      widths={
+        Array [
+          "xs",
+          "sm",
+          "md",
+          "lg",
+          "xl",
+        ]
+      }
+    >
+      SubTotal: 1000
+    </Label>
+  </div>
 </div>
 `;
