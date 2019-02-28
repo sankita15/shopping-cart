@@ -79,8 +79,8 @@ exports[`carts page should match snapshot 1`] = `
           </Label>
         </td>
         <td>
-          <FaPlusSquare
-            className="cart-plus"
+          <FaMinusSquare
+            className="cart-minus"
             onClick={[Function]}
           />
           <Label
@@ -98,8 +98,8 @@ exports[`carts page should match snapshot 1`] = `
           >
             2
           </Label>
-          <FaMinusSquare
-            className="cart-minus"
+          <FaPlusSquare
+            className="cart-plus"
             onClick={[Function]}
           />
         </td>
@@ -146,8 +146,8 @@ exports[`carts page should match snapshot 1`] = `
           </Label>
         </td>
         <td>
-          <FaPlusSquare
-            className="cart-plus"
+          <FaMinusSquare
+            className="cart-minus"
             onClick={[Function]}
           />
           <Label
@@ -165,8 +165,8 @@ exports[`carts page should match snapshot 1`] = `
           >
             2
           </Label>
-          <FaMinusSquare
-            className="cart-minus"
+          <FaPlusSquare
+            className="cart-plus"
             onClick={[Function]}
           />
         </td>

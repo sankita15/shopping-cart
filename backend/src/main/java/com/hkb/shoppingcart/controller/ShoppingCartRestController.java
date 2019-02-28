@@ -171,7 +171,7 @@ public class ShoppingCartRestController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/order/{cartId}")
-    ResponseEntity<?> order(@RequestBody ShoppingCart input, @PathVariable String cartId){
+    ResponseEntity<?> order(@PathVariable String cartId){
         logger.info("---Placing order on shopping cart '" + cartId +"'---");
         ShoppingCart cart = this.shoppingCartRepository.findOne(cartId);
         if(cart == null){

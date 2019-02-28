@@ -117,6 +117,7 @@ exports[`Item Description Page should match snapshot 1`] = `
       <Button
         className="buy"
         color="secondary"
+        onClick={[Function]}
         tag="button"
       >
         BUY NOW
