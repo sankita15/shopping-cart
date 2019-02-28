@@ -6,7 +6,7 @@ import Cart from './Cart';
 
 describe('carts page', () => {
     const defaultProps = {
-        cookies: 'alice',
+        user: 'alice',
     };
 
     const EMPTY_CART = [
@@ -167,7 +167,7 @@ describe('carts page', () => {
     });
 
     it('should call fetch for rendering carts data', () => {
-        expect(fetch).toHaveBeenCalledWith(`/api/carts/user/${defaultProps.cookies}`, {
+        expect(fetch).toHaveBeenCalledWith(`/api/carts/user/${defaultProps.user}`, {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',

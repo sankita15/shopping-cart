@@ -14,9 +14,9 @@ export default class Cart extends React.Component {
     }
 
     componentDidMount() {
-        const { cookies } = this.props;
+        const { user } = this.props;
 
-        fetch(`/api/carts/user/${cookies}`, {
+        fetch(`/api/carts/user/${user}`, {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
@@ -138,5 +138,5 @@ export default class Cart extends React.Component {
 }
 
 Cart.propTypes = {
-    cookies: PropTypes.string,
+    user: PropTypes.string,
 };

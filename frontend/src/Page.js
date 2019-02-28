@@ -44,7 +44,7 @@ const Page = props => (
 );
 
 Page.propTypes = {
-    cookies: PropTypes.string,
+    user: PropTypes.string,
 };
 
 export default Page;

@@ -30,7 +30,7 @@ public class FrontendController {
     })
     String serveLoginPage(Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("pageProps", PageProps.builder().cookies(username).build());
+        model.addAttribute("pageProps", PageProps.builder().user(username).build());
         model.addAttribute("stylesheet", frontendSourcesProvider.getStylesheet());
         model.addAttribute("mainScript", frontendSourcesProvider.getMainScript());
 

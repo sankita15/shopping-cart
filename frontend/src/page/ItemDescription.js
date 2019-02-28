@@ -20,7 +20,7 @@ export default class ItemDescription extends React.Component {
             cartDetails: {
                 id: '',
                 status: null,
-                username: props.cookies,
+                username: props.user,
                 products: {},
                 productQuantities: {},
                 lastModified: Date.now(),
@@ -47,9 +47,9 @@ export default class ItemDescription extends React.Component {
     }
 
     checkIfCartExist() {
-        const { cookies } = this.props;
+        const { user } = this.props;
 
-        return fetch(`/api/carts/user/${cookies}`, {
+        return fetch(`/api/carts/user/${user}`, {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
@@ -146,5 +146,5 @@ export default class ItemDescription extends React.Component {
 
 ItemDescription.propTypes = {
     id: PropTypes.string,
-    cookies: PropTypes.string,
+    user: PropTypes.string,
 };

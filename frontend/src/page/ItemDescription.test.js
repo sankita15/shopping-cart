@@ -7,7 +7,7 @@ import ItemDescription from './ItemDescription';
 describe('Item Description Page', () => {
     const defaultProps = {
         id: '5c6a7bac06057ee4fc0d3646',
-        cookies: 'alice',
+        user: 'alice',
     };
 
     const ITEM = {
@@ -156,7 +156,7 @@ describe('Item Description Page', () => {
 
 
         expect(fetch.mock.calls[1][0])
-            .toBe(`/api/carts/user/${defaultProps.cookies}`);
+            .toBe(`/api/carts/user/${defaultProps.user}`);
 
         expect(fetch.mock.calls[1][1])
             .toEqual({
