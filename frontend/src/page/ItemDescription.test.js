@@ -197,4 +197,32 @@ describe('Item Description Page', () => {
                 method: 'POST',
             });
     });
+
+    it('should redirect to AddToCart Page when click on ADD TO CART button', async () => {
+        fetch.mockResolvedValueOnce({ status: 404 });
+        fetch.mockResolvedValueOnce({
+            json: () => Promise.resolve(CART),
+            ok: true,
+        });
+        fetch.mockResolvedValueOnce({
+            json: () => Promise.resolve(FILLED_CART),
+            ok: true,
+        });
+        const button = component.find(Button).at(0);
+        button.simulate('click');
+
+        component.update();
+
+        // eslint-disable-next-line no-undef
+        await flushPromises();
+
+        expect(window.location.assign).toHaveBeenCalledWith('/carts');
+    });
+
+    it('should redirect to BuyNow Page when click on BUY NOW button', () => {
+        const button = component.find(Button).at(1);
+        button.simulate('click');
+
+        expect(window.location.assign).toHaveBeenCalledWith('/buy');
+    });
 });

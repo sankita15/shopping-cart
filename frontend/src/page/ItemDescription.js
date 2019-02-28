@@ -134,12 +134,14 @@ export default class ItemDescription extends React.Component {
                     </div>
                     <div className="button-group">
                         <Button className="cart" onClick={() => this.addToCart()}>ADD TO CART</Button>
-                        <Button className="buy">BUY NOW</Button>
+                        <Button className="buy" onClick={() => this.redirectToBuyNowPage()}>BUY NOW</Button>
                     </div>
                 </div>
             </div>
         );
     }
+
+    redirectToBuyNowPage = () => { window.location.assign('/buy'); };
 }
 
 ItemDescription.propTypes = {

@@ -5,6 +5,7 @@ import LoginPage from './page/LoginPage';
 import Products from './page/Products';
 import ItemDescription from './page/ItemDescription';
 import Cart from './page/Cart';
+import OrderPage from './page/OrderPage';
 
 
 // const ItemDescriptionWrapper = ({ match: { params: { id } } }, props) => <ItemDescription id={id} {...props}/>;
@@ -35,6 +36,9 @@ const Page = props => (
                     />
                 )}
             />
+            <Route exact path="/buy">
+                <OrderPage {...props} />
+            </Route>
         </Switch>
     </Router>
 );
