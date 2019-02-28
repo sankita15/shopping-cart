@@ -26,7 +26,8 @@ public class FrontendController {
         "/login",
         "/products",
         "/products/{id}",
-        "/carts"
+        "/carts",
+        "/buy"
     })
     String serveLoginPage(Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
