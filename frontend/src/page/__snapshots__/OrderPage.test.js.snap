@@ -2,6 +2,9 @@
 
 exports[`Order Page should match snapshot 1`] = `
 <div>
+  <Row
+    tag="div"
+  />
   <Label
     className="welcome-order"
     tag="label"
