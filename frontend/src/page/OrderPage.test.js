@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Col, Card, Label, Button, CardBody, CardText } from 'reactstrap';
+import { Col, Card, Label, Button, CardBody, CardText, Alert } from 'reactstrap';
 import OrderPage from './OrderPage';
 
 
@@ -87,15 +87,14 @@ describe('Order Page', () => {
 
     const createWrapper = () => shallow(<OrderPage {...defaultProps} />);
 
+    window.location.assign = jest.fn();
+
     let component;
 
     beforeEach(async () => {
         fetch.mockResolvedValueOnce({ json: () => Promise.resolve(CART), ok: true });
 
         component = createWrapper();
-
-        // // eslint-disable-next-line no-undef
-        // await flushPromises();
     });
 
     it('should match snapshot', () => {
@@ -132,6 +131,8 @@ describe('Order Page', () => {
 
         const buyNowButton = component.find(Col).at(1).find(Card).find(Button);
 
+        expect(component.find(Alert).length).toEqual(0);
+
         buyNowButton.simulate('click');
 
         component.update();
@@ -146,5 +147,32 @@ describe('Order Page', () => {
                 'Content-Type': 'application/json',
             },
         });
+
+        const alertBox = component.find(Alert);
+
+        expect(alertBox.length).toEqual(1);
+
+        alertBox.props().toggle();
+
+        expect(window.location.assign).toHaveBeenCalledWith('/products');
+    });
+
+    it('should disable button after order gets placed', async () => {
+        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(ORDERED_CART), ok: true });
+
+        const buyNowButton = component.find(Col).at(1).find(Card).find(Button);
+
+        expect(buyNowButton.prop('disabled')).toBeFalsy();
+
+        buyNowButton.simulate('click');
+
+        component.update();
+
+        // eslint-disable-next-line no-undef
+        await flushPromises();
+
+        const buyNowButton1 = component.find(Col).at(1).find(Card).find(Button);
+
+        expect(buyNowButton1.prop('disabled')).toBeTruthy();
     });
 });

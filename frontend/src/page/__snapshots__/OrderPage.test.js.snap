@@ -80,7 +80,7 @@ exports[`Order Page should match snapshot 1`] = `
             className="product-delivery"
             tag="p"
           >
-            Estimated Delivery : Thu Feb 28 2019 17:21:51 GMT+0530 (India Standard Time)
+            Estimated Delivery : 1/2/2019
           </CardText>
           <div
             className="horizontal-line"
@@ -129,7 +129,7 @@ exports[`Order Page should match snapshot 1`] = `
             className="product-delivery"
             tag="p"
           >
-            Estimated Delivery : Thu Feb 28 2019 17:21:51 GMT+0530 (India Standard Time)
+            Estimated Delivery : 1/2/2019
           </CardText>
           <div
             className="horizontal-line"
@@ -184,6 +184,7 @@ exports[`Order Page should match snapshot 1`] = `
           <Button
             className="place-order-button"
             color="secondary"
+            disabled={false}
             onClick={[Function]}
             tag="button"
           >

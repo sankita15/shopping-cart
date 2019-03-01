@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Label, CardText, Col, CardBody, Button, Media, Row } from 'reactstrap';
+import { Card, Label, CardText, Col, CardBody, Button, Media, Row, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 export default class OrderPage extends React.Component {
@@ -7,6 +7,8 @@ export default class OrderPage extends React.Component {
         super(props);
         this.state = {
             cart: {},
+            showAlert: false,
+            isDisabled: false,
         };
     }
 
@@ -30,15 +32,76 @@ export default class OrderPage extends React.Component {
         return !products || Object.keys(products).length === 0;
     }
 
+    getProduct = ({ id, productName, productCode, price, imageUrl, starRating }, productQuantity) => (
+        <CardBody className="place-order" key={id}>
+            <Media src={imageUrl} className="order-image" />
+            <CardText className="product-name">
+                {productName}
+            </CardText>
+            <CardText className="product-code">
+                {productCode}
+            </CardText>
+            <CardText className="product-price">
+                {`Rs. ${price}`}
+            </CardText>
+            <CardText className="product-quantity">
+                {`Quantity: ${productQuantity}`}
+            </CardText>
+            <CardText className="product-rating">
+                {`Star Rating: ${starRating}`}
+            </CardText>
+            <CardText className="product-delivery">
+                {`Estimated Delivery : ${`${new Date().getDate()}/${new Date().getMonth()}/${new Date().getFullYear()}`}`}
+            </CardText>
+            <div className="horizontal-line" />
+        </CardBody>
+    );
+
+    getCartProducts() {
+        const { cart: { products, productQuantities } } = this.state;
+
+        return Object.keys(products)
+            .map(productId => this.getProduct(products[productId], productQuantities[productId]));
+    }
+
+    placeOrder() {
+        const { cart: { id } } = this.state;
+
+        fetch(`/api/carts/order/${id}`, {
+            credentials: 'include',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then(res => (res.ok ? res.json() : Promise.reject(res.status)))
+            .then(() => {
+                this.setState({ showAlert: true, isDisabled: true });
+            }).catch(status => console.warn(status));
+    }
+
+    productOrderedAlert() {
+        const { showAlert } = this.state;
+        return (
+            <div>
+                <Alert color="success" className="alert-box" isOpen={showAlert} toggle={() => this.onDismiss()}>
+                Yayy!!! Your Order Got Placed.
+                Click on cancel to continue shopping
+                </Alert>
+            </div>
+        );
+    }
+
     render() {
         const { user } = this.props;
-        const { cart: { totalPrice } } = this.state;
+        const { cart: { totalPrice }, showAlert, isDisabled } = this.state;
 
         if (this.isCartEmpty()) {
             return <Label>Your Cart is empty.Please add item to your cart</Label>;
         }
+
         return (
             <div>
+                <Row>{ showAlert && this.productOrderedAlert()}</Row>
                 <Label className="welcome-order">{`Hello ${user.toUpperCase()}, Review Your Order`}</Label>
                 <Row>
                     <Col sm={8}>
@@ -59,7 +122,7 @@ export default class OrderPage extends React.Component {
                                     {`Cart Total: Rs ${totalPrice + 40}`}
                                     {' '}
                                 </CardText>
-                                <Button className="place-order-button" onClick={() => this.placeOrder()}>Place Your Order</Button>
+                                <Button className="place-order-button" disabled={isDisabled} onClick={() => this.placeOrder()}>Place Your Order</Button>
                             </CardBody>
                         </Card>
                     </Col>
@@ -68,51 +131,14 @@ export default class OrderPage extends React.Component {
         );
     }
 
-    getProduct = ({ id, productName, productCode, price, imageUrl, starRating }, productQuantity) => (
-        <CardBody className="place-order" key={id}>
-            <Media src={imageUrl} className="order-image" />
-            <CardText className="product-name">
-                {productName}
-            </CardText>
-            <CardText className="product-code">
-                {productCode}
-            </CardText>
-            <CardText className="product-price">
-                {`Rs. ${price}`}
-            </CardText>
-            <CardText className="product-quantity">
-                {`Quantity: ${productQuantity}`}
-            </CardText>
-            <CardText className="product-rating">
-                {`Star Rating: ${starRating}`}
-            </CardText>
-            <CardText className="product-delivery">
-                {`Estimated Delivery : ${new Date()}`}
-            </CardText>
-            <div className="horizontal-line" />
-        </CardBody>
-    );
-
-    getCartProducts() {
-        const { cart: { products, productQuantities } } = this.state;
-
-        return Object.keys(products)
-            .map(productId => this.getProduct(products[productId], productQuantities[productId]));
+    onDismiss() {
+        this.setState({
+            showAlert: false,
+        });
+        this.redirectToProductPage();
     }
 
-    placeOrder() {
-        const { cart } = this.state;
-        fetch(`/api/carts/order/${cart.id}`, {
-            credentials: 'include',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then((carts) => {
-                this.setState({ cart: carts });
-            }).catch(status => console.warn(status));
-    }
+    redirectToProductPage = () => window.location.assign('/products');
 }
 
 OrderPage.propTypes = {
