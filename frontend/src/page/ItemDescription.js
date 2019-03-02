@@ -75,7 +75,7 @@ export default class ItemDescription extends React.Component {
         return pendingCart.length !== 0;
     }
 
-    async addToCart() {
+    async addToCart(redirectPage) {
         await this.checkIfCartExist();
 
         if (!this.isPendingCartAvailable()) {
@@ -99,7 +99,11 @@ export default class ItemDescription extends React.Component {
             .then(cart => this.setState({ allCarts: [cart] }))
             .catch(status => console.warn(status));
 
-        window.location.assign('/carts');
+        if (redirectPage === 'cart') {
+            window.location.assign('/carts');
+        } else {
+            window.location.assign('/buy');
+        }
     }
 
 
@@ -151,15 +155,13 @@ export default class ItemDescription extends React.Component {
                         <br />
                     </div>
                     <div className="button-group">
-                        <Button className="cart" onClick={() => this.addToCart()}>ADD TO CART</Button>
-                        <Button className="buy" onClick={() => this.redirectToBuyNowPage()}>BUY NOW</Button>
+                        <Button className="cart" onClick={() => this.addToCart("cart")}>ADD TO CART</Button>
+                        <Button className="buy" onClick={() => this.addToCart("buy")}>BUY NOW</Button>
                     </div>
                 </div>
             </div>
         );
     }
-
-    redirectToBuyNowPage = () => { window.location.assign('/buy'); };
 }
 
 ItemDescription.propTypes = {
