@@ -13,6 +13,7 @@ describe('carts page', () => {
         {
             id: '5c6bf8a306057eeb12dfb7c4',
             status: 'pending',
+            username: 'alice',
             products: {},
             productQuantities: {},
             lastModified: 1551162037567,
@@ -25,6 +26,7 @@ describe('carts page', () => {
         {
             id: '5c6bf8a306057eeb12dfb7c4',
             status: 'pending',
+            username: 'alice',
             products: {
                 '59d89875479ded2a718bac13': {
                     'id': '59d89875479ded2a718bac13',
@@ -64,6 +66,7 @@ describe('carts page', () => {
     const SECOND_CART = {
         id: '5c6bf8a306057eeb12dfb7c4',
         status: 'pending',
+        username: 'alice',
         products: {
             '59d89875479ded2a718bac13': {
                 'id': '59d89875479ded2a718bac13',
@@ -98,6 +101,57 @@ describe('carts page', () => {
         orderDate: 1550482348428,
         totalPrice: 1300,
     };
+
+    const ORDERED_CART = [{
+        id: '5c6bf8a306057eeb12dfb7c4',
+        status: 'ordered',
+        username: 'alice',
+        products: {
+            '59d89875479ded2a718bac13': {
+                'id': '59d89875479ded2a718bac13',
+                'productName': 'colgatewhite',
+                'productCode': 'GE-1206',
+                'releaseDate': 1483539355570,
+                'lastModified': 1507367029712,
+                'description': 'dentifrice',
+                'price': 300,
+                'starRating': 4.5,
+                'imageUrl': 'http://colgate.com/2/',
+                'stock': 1000,
+            },
+        },
+        productQuantities: {
+            '59d89875479ded2a718bac13': 2,
+        },
+        lastModified: 1551162037567,
+        orderDate: 1550482348428,
+        totalPrice: 1000,
+    },
+    {
+        id: '5c7ab5bf06057e568d0f76c4',
+        status: 'ordered',
+        username: 'alice',
+        products: {
+            '5c7ab0e006057e50bbc8d898': {
+                'id': '5c7ab0e006057e50bbc8d898',
+                'productName': 'Garden Cart',
+                'productCode': 'GDN-0023',
+                'releaseDate': 1489805155570,
+                'lastModified': 1551544544142,
+                'description': '15 gallon capacity rolling garden cart',
+                'price': 3295,
+                'starRating': 4.2,
+                'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png',
+                'stock': 14,
+            },
+        },
+        productQuantities: {
+            '5c7ab0e006057e50bbc8d898': 1,
+        },
+        lastModified: 1551545797603,
+        orderDate: 1551545797603,
+        totalPrice: 3295,
+    }];
 
     const THIRD_CART = {
         id: '5c6bf8a306057eeb12dfb7c4',
@@ -201,6 +255,21 @@ describe('carts page', () => {
         await flushPromises();
 
         const message = wrapper.find(Label);
+
+        expect(message.length).toBe(1);
+    });
+
+    it('should render Cart Empty message when there is no pending cart available',async () => {
+        fetch.resetMocks();
+
+        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(ORDERED_CART), ok: true });
+
+        const wrapper2 = createWrapper();
+
+        // eslint-disable-next-line no-undef
+        await flushPromises();
+
+        const message = wrapper2.find(Label);
 
         expect(message.length).toBe(1);
     });

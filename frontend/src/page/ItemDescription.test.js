@@ -21,6 +21,57 @@ describe('Item Description Page', () => {
         stock: 400,
     };
 
+    const ORDERED_CART = [{
+        id: '5c71694e06057e0960b31579',
+        status: 'ordered',
+        username: 'alice',
+        products: {
+            '59d89875479ded2a718bac13': {
+                'id': '59d89875479ded2a718bac13',
+                'productName': 'colgatewhite',
+                'productCode': 'GE-1206',
+                'releaseDate': 1483539355570,
+                'lastModified': 1507367029712,
+                'description': 'dentifrice',
+                'price': 300,
+                'starRating': 4.5,
+                'imageUrl': 'http://colgate.com/2/',
+                'stock': 1000,
+            },
+        },
+        productQuantities: {
+            '59d89875479ded2a718bac13': 2,
+        },
+        lastModified: 1551162037567,
+        orderDate: 1550482348428,
+        totalPrice: 1000,
+    },
+    {
+        id: '5c7ab5bf06057e568d0f76c4',
+        status: 'ordered',
+        username: 'alice',
+        products: {
+            '5c7ab0e006057e50bbc8d898': {
+                'id': '5c7ab0e006057e50bbc8d898',
+                'productName': 'Garden Cart',
+                'productCode': 'GDN-0023',
+                'releaseDate': 1489805155570,
+                'lastModified': 1551544544142,
+                'description': '15 gallon capacity rolling garden cart',
+                'price': 3295,
+                'starRating': 4.2,
+                'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png',
+                'stock': 14,
+            },
+        },
+        productQuantities: {
+            '5c7ab0e006057e50bbc8d898': 1,
+        },
+        lastModified: 1551545797603,
+        orderDate: 1551545797603,
+        totalPrice: 3295,
+    }];
+
     const EMPTY_CART = {
         id: '',
         status: null,
@@ -118,7 +169,7 @@ describe('Item Description Page', () => {
             .toBe(ITEM.imageUrl);
     });
 
-    it('should call fetch for getting cart data', async () => {
+    it('should call fetch for getting cart data if no cart present', async () => {
         fetch.mockResolvedValueOnce({ status: 404 });
         fetch.mockResolvedValueOnce({
             json: () => Promise.resolve(CART),
@@ -130,8 +181,80 @@ describe('Item Description Page', () => {
         });
 
         // const component = createWrapper();
-        const addToCart = component.find(Button)
-            .at(0);
+        const addToCart = component.find(Button).at(0);
+
+        addToCart.simulate('click');
+
+        component.update();
+
+        // eslint-disable-next-line no-undef
+        await flushPromises();
+
+        expect(fetch.mock.calls.length)
+            .toBe(4);
+
+        expect(fetch.mock.calls[0][0])
+            .toBe(`/api/products/${defaultProps.id}`);
+
+        expect(fetch.mock.calls[0][1])
+            .toEqual({
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+
+        expect(fetch.mock.calls[1][0])
+            .toBe(`/api/carts/user/${defaultProps.user}`);
+
+        expect(fetch.mock.calls[1][1])
+            .toEqual({
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+
+        expect(fetch.mock.calls[2][0])
+            .toBe('/api/carts');
+        expect(fetch.mock.calls[2][1])
+            .toEqual({
+                credentials: 'include',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: expect.any(String),
+            });
+        expect(JSON.parse(fetch.mock.calls[2][1].body))
+            .toEqual({
+                ...EMPTY_CART,
+                lastModified: expect.any(Number),
+                orderDate: expect.any(Number),
+            });
+
+
+        expect(fetch.mock.calls[3][0])
+            .toBe(`/api/carts/${CART.id}/product/${ITEM.id}`);
+        expect(fetch.mock.calls[3][1])
+            .toEqual({
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                method: 'POST',
+            });
+    });
+
+    it('should create new cart on placing order if no more pending cart available',async () => {
+        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(ORDERED_CART), ok: true });
+        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(CART), ok: true, });
+        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true, });
+
+        // const component = createWrapper();
+        const addToCart = component.find(Button).at(0);
 
         addToCart.simulate('click');
 

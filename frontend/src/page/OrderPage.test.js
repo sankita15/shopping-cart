@@ -9,6 +9,19 @@ describe('Order Page', () => {
         user: 'alice',
     };
 
+    const EMPTY_CART = [
+        {
+            id: '5c6bf8a306057eeb12dfb7c4',
+            status: 'pending',
+            username: 'alice',
+            products: {},
+            productQuantities: {},
+            lastModified: 1551162037567,
+            orderDate: 1550482348428,
+            totalPrice: 547,
+        },
+    ];
+
     const CART = [{
         id: '5c6bf8a306057eeb12dfb7c4',
         status: 'pending',
@@ -124,6 +137,51 @@ describe('Order Page', () => {
                 'Content-Type': 'application/json',
             },
         });
+    });
+
+    it('should render message when when CART is not created', async () => {
+        fetch.resetMocks();
+
+        fetch.mockResolvedValueOnce({ json: () => Promise.resolve([{}]), ok: true });
+
+        const wrapper = createWrapper();
+
+        // eslint-disable-next-line no-undef
+        await flushPromises();
+
+        const message = wrapper.find(Label);
+
+        expect(message.length).toBe(1);
+    });
+
+    it('should render message when CART is created but empty', async () => {
+        fetch.resetMocks();
+
+        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(EMPTY_CART), ok: true });
+
+        const wrapper = createWrapper();
+
+        // eslint-disable-next-line no-undef
+        await flushPromises();
+
+        const message = wrapper.find(Label);
+
+        expect(message.length).toBe(1);
+    });
+
+    it('should render Cart Empty message when there is no pending cart available',async () => {
+        fetch.resetMocks();
+
+        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(ORDERED_CART), ok: true });
+
+        const wrapper2 = createWrapper();
+
+        // eslint-disable-next-line no-undef
+        await flushPromises();
+
+        const message = wrapper2.find(Label);
+
+        expect(message.length).toBe(1);
     });
 
     it('should fetch /order api on click of place your order button', async () => {
