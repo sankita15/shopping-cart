@@ -7,6 +7,17 @@ export default class ItemDescription extends React.Component {
     constructor(props) {
         super(props);
 
+        const cartDetails = {
+            id: '',
+            status: null,
+            username: props.user,
+            products: {},
+            productQuantities: {},
+            lastModified: Date.now(),
+            orderDate: Date.now(),
+            totalPrice: 0,
+        };
+
         this.state = {
             item: {
                 productName: '',
@@ -17,16 +28,8 @@ export default class ItemDescription extends React.Component {
                 productCode: '',
                 stock: 0,
             },
-            cartDetails: {
-                id: '',
-                status: null,
-                username: props.user,
-                products: {},
-                productQuantities: {},
-                lastModified: Date.now(),
-                orderDate: Date.now(),
-                totalPrice: 0,
-            },
+            cartDetails,
+            allCarts: [cartDetails],
         };
     }
 
@@ -42,7 +45,7 @@ export default class ItemDescription extends React.Component {
             body: JSON.stringify(cartDetails),
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(updatedCart => this.setState({ cartDetails: updatedCart }))
+            .then(updatedCart => this.setState({ allCarts: [updatedCart] }))
             .catch(status => console.log('cart creation failed', status));
     }
 
@@ -56,7 +59,7 @@ export default class ItemDescription extends React.Component {
             },
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(cartDetails => this.setState({ cartDetails: cartDetails[0] }))
+            .then(cart => this.setState({ allCarts: cart }))
             .catch((status) => {
                 if ([404].includes(status)) {
                     return this.createCart();
@@ -64,13 +67,28 @@ export default class ItemDescription extends React.Component {
             });
     }
 
+    isPendingCartAvailable() {
+        const { allCarts } = this.state;
+
+        const pendingCart = allCarts.filter(cart1 => cart1.status === 'pending');
+
+        return pendingCart.length !== 0;
+    }
+
     async addToCart() {
         await this.checkIfCartExist();
 
-        const { cartDetails: { id: cartId } } = this.state;
+        if (!this.isPendingCartAvailable()) {
+            await this.createCart();
+        }
+
+        const { allCarts } = this.state;
+
         const { id: productId } = this.props;
 
-        await fetch(`/api/carts/${cartId}/product/${productId}`, {
+        const pendingCartIndex = allCarts.findIndex(cart1 => cart1.status === 'pending');
+
+        await fetch(`/api/carts/${allCarts[pendingCartIndex].id}/product/${productId}`, {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +96,7 @@ export default class ItemDescription extends React.Component {
             method: 'POST',
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(cartDetails => this.setState({ cartDetails }))
+            .then(cart => this.setState({ allCarts: [cart] }))
             .catch(status => console.warn(status));
 
         window.location.assign('/carts');

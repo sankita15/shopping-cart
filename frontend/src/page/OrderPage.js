@@ -6,7 +6,7 @@ export default class OrderPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            cart: {},
+            allCarts: [],
             showAlert: false,
             isDisabled: false,
         };
@@ -22,14 +22,14 @@ export default class OrderPage extends React.Component {
             },
         }).then(res => (res.ok ? res.json() : Promise.reject(res.status)))
             .then((carts) => {
-                this.setState({ cart: carts[0] });
+                this.setState({ allCarts: carts });
             })
             .catch(status => console.warn(status));
     }
 
-    isCartEmpty() {
-        const { cart: { products } } = this.state;
-        return !products || Object.keys(products).length === 0;
+    isCartEmpty(pendingCartIndex) {
+        const { allCarts } = this.state;
+        return Object.keys(allCarts[pendingCartIndex].products).length === 0;
     }
 
     getProduct = ({ id, productName, productCode, price, imageUrl, starRating }, productQuantity) => (
@@ -57,17 +57,21 @@ export default class OrderPage extends React.Component {
         </CardBody>
     );
 
-    getCartProducts() {
-        const { cart: { products, productQuantities } } = this.state;
+    getCartProducts(pendingCartIndex) {
+        const { allCarts } = this.state;
+
+        const { products } = allCarts[pendingCartIndex];
+
+        const { productQuantities } = allCarts[pendingCartIndex];
 
         return Object.keys(products)
             .map(productId => this.getProduct(products[productId], productQuantities[productId]));
     }
 
-    placeOrder() {
-        const { cart: { id } } = this.state;
+    placeOrder(pendingCartIndex) {
+        const { allCarts } = this.state;
 
-        fetch(`/api/carts/order/${id}`, {
+        fetch(`/api/carts/order/${allCarts[pendingCartIndex].id}`, {
             credentials: 'include',
             method: 'POST',
             headers: {
@@ -93,9 +97,11 @@ export default class OrderPage extends React.Component {
 
     render() {
         const { user } = this.props;
-        const { cart: { totalPrice }, showAlert, isDisabled } = this.state;
+        const { allCarts, showAlert, isDisabled } = this.state;
 
-        if (this.isCartEmpty()) {
+        const pendingCartIndex = allCarts.findIndex(cart => cart.status === 'pending');
+
+        if (pendingCartIndex === -1 || this.isCartEmpty(pendingCartIndex)) {
             return <Label>Your Cart is empty.Please add item to your cart</Label>;
         }
 
@@ -107,7 +113,7 @@ export default class OrderPage extends React.Component {
                     <Col sm={8}>
                         <Card className="order-card">
                             {
-                                this.getCartProducts()
+                                this.getCartProducts(pendingCartIndex)
                             }
                         </Card>
                     </Col>
@@ -115,14 +121,14 @@ export default class OrderPage extends React.Component {
                         <Card className="order-value-card">
                             <CardBody className="order-price">
                                 <CardText className="order-summary">Order Summary</CardText>
-                                <CardText>{`Items: ${totalPrice}`}</CardText>
+                                <CardText>{`Items: ${allCarts[pendingCartIndex].totalPrice}`}</CardText>
                                 <CardText> Delivery: Rs 40 </CardText>
                                 <CardText>
                                     {' '}
-                                    {`Cart Total: Rs ${totalPrice + 40}`}
+                                    {`Cart Total: Rs ${allCarts[pendingCartIndex].totalPrice + 40}`}
                                     {' '}
                                 </CardText>
-                                <Button className="place-order-button" disabled={isDisabled} onClick={() => this.placeOrder()}>Place Your Order</Button>
+                                <Button className="place-order-button" disabled={isDisabled} onClick={() => this.placeOrder(pendingCartIndex)}>Place Your Order</Button>
                             </CardBody>
                         </Card>
                     </Col>

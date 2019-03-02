@@ -8,13 +8,13 @@ module.exports = {
         filename: '[name].[chunkhash].js',
     },
     resolve: {
-        extensions: ['.js']
+        extensions: ['.js'],
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
-                loader: 'babel-loader'
+                loader: 'babel-loader',
             },
             {
                 test: /\.scss$/,
@@ -23,22 +23,22 @@ module.exports = {
                         loader: 'file-loader',
                         options: {
                             name: 'styles/[name].css',
-                        }
+                        },
                     },
                     {
-                        loader: 'extract-loader'
+                        loader: 'extract-loader',
                     },
                     {
-                        loader: 'css-loader?-url'
+                        loader: 'css-loader?-url',
                     },
                     {
-                        loader: 'sass-loader'
-                    }
-                ]
-            }
-        ]
+                        loader: 'sass-loader',
+                    },
+                ],
+            },
+        ],
     },
     plugins: [
         new ManifestPlugin(),
-    ]
+    ],
 };
