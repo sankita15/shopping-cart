@@ -28,6 +28,14 @@
   }
 }
 
+.cart-quantity{
+  display: inline-block;
+  margin-left: 22px;
+  margin-bottom: -10px;
+  color: brown;
+  font-weight: bold;
+}
+
 .button-group{
 
   & > button {

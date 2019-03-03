@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Media, Label, Button } from 'reactstrap';
+import { Media, Label, Button, Row } from 'reactstrap';
 import { FaCartPlus } from 'react-icons/fa';
 
 export default class ItemDescription extends React.Component {
@@ -19,6 +19,7 @@ export default class ItemDescription extends React.Component {
         };
 
         this.state = {
+            cartQuantity: 0,
             item: {
                 productName: '',
                 description: '',
@@ -75,7 +76,7 @@ export default class ItemDescription extends React.Component {
         return pendingCart.length !== 0;
     }
 
-    async addToCart(redirectPage) {
+    async addToCart() {
         await this.checkIfCartExist();
 
         if (!this.isPendingCartAvailable()) {
@@ -97,18 +98,19 @@ export default class ItemDescription extends React.Component {
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
             .then(cart => this.setState({ allCarts: [cart] }))
-            .catch(status => console.warn(status));
-
-        if (redirectPage === 'cart') {
-            window.location.assign('/carts');
-        } else {
-            window.location.assign('/buy');
-        }
+            .then(() => this.calculateCartQuantity(pendingCartIndex))
+            .catch(status => console.warn('Failed', status));
     }
 
 
-    componentDidMount() {
+    async componentDidMount() {
         const { id } = this.props;
+
+        await this.checkIfCartExist();
+
+        const { allCarts } = this.state;
+
+        const pendingCartIndex = allCarts.findIndex(cart1 => cart1.status === 'pending');
 
         fetch(`/api/products/${id}`, {
             credentials: 'include',
@@ -118,16 +120,24 @@ export default class ItemDescription extends React.Component {
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
             .then(item => this.setState({ item }))
+            .then(() => this.calculateCartQuantity(pendingCartIndex))
             .catch(e => (console.warn(e)));
     }
 
     render() {
-        const { item: { productName, description, price, imageUrl, starRating, productCode } } = this.state;
+        const { item: { productName, description, price, imageUrl, starRating, productCode }, allCarts, cartQuantity } = this.state;
+
+        console.log(allCarts, 'allCarts');
 
         return (
             <div className="item-detail-page">
                 <div className="cart-icon">
-                    <FaCartPlus size={45} />
+                    <Row>
+                        <Label className="cart-quantity">{cartQuantity}</Label>
+                    </Row>
+                    <Row>
+                        <FaCartPlus size={45} onClick={() => this.redirectToCartPage()} />
+                    </Row>
                 </div>
                 <div className="item-image">
                     <Media src={imageUrl} alt={productName} />
@@ -136,31 +146,55 @@ export default class ItemDescription extends React.Component {
                     <div className="item-details">
                         <Label className="item-name">{productName}</Label>
                         <Label>
-                            Star Rating:
+                                Star Rating:
                             {starRating}
                         </Label>
                         <Label>
-                            Product Code:
+                                Product Code:
                             {productCode}
                         </Label>
                         <Label>
-                            Description:
+                                Description:
                             {description}
                         </Label>
                         <Label>
-                            Rs.
+                                Rs.
                             {price}
                         </Label>
                         <br />
                         <br />
                     </div>
                     <div className="button-group">
-                        <Button className="cart" onClick={() => this.addToCart("cart")}>ADD TO CART</Button>
-                        <Button className="buy" onClick={() => this.addToCart("buy")}>BUY NOW</Button>
+                        <Button className="cart" onClick={() => this.addToCart()}>ADD TO CART</Button>
+                        <Button className="buy" onClick={() => this.redirectToBuyNowPage()}>BUY NOW</Button>
                     </div>
                 </div>
             </div>
         );
+    }
+
+    redirectToCartPage = () => window.location.assign('/carts');
+
+    async redirectToBuyNowPage() {
+        await this.addToCart();
+
+        window.location.assign('/buy');
+    }
+
+    calculateCartQuantity(pendingCartIndex) {
+        const { allCarts } = this.state;
+
+        if (pendingCartIndex !== -1 && Object.keys(allCarts[pendingCartIndex].products).length !== 0) {
+            const { productQuantities } = allCarts[pendingCartIndex];
+
+            const quantity = Object.keys(productQuantities).map(productId => productQuantities[productId])
+                .reduce((acc, value) => acc + value);
+
+            this.setState({
+                cartQuantity: quantity,
+            });
+        }
+        return 0;
     }
 }
 
