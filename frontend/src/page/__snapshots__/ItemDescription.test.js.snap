@@ -7,9 +7,33 @@ exports[`Item Description Page should match snapshot 1`] = `
   <div
     className="cart-icon"
   >
-    <FaCartPlus
-      size={45}
-    />
+    <Row
+      tag="div"
+    >
+      <Label
+        className="cart-quantity"
+        tag="label"
+        widths={
+          Array [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl",
+          ]
+        }
+      >
+        0
+      </Label>
+    </Row>
+    <Row
+      tag="div"
+    >
+      <FaCartPlus
+        onClick={[Function]}
+        size={45}
+      />
+    </Row>
   </div>
   <div
     className="item-image"

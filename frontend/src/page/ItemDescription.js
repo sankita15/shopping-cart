@@ -125,9 +125,7 @@ export default class ItemDescription extends React.Component {
     }
 
     render() {
-        const { item: { productName, description, price, imageUrl, starRating, productCode }, allCarts, cartQuantity } = this.state;
-
-        console.log(allCarts, 'allCarts');
+        const { item: { productName, description, price, imageUrl, starRating, productCode }, cartQuantity } = this.state;
 
         return (
             <div className="item-detail-page">
@@ -194,7 +192,6 @@ export default class ItemDescription extends React.Component {
                 cartQuantity: quantity,
             });
         }
-        return 0;
     }
 }
 

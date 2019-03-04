@@ -83,7 +83,7 @@ exports[`Order Page should match snapshot 1`] = `
             className="product-delivery"
             tag="p"
           >
-            Estimated Delivery : 3/2/2019
+            Estimated Delivery : 4/2/2019
           </CardText>
           <div
             className="horizontal-line"
@@ -132,7 +132,7 @@ exports[`Order Page should match snapshot 1`] = `
             className="product-delivery"
             tag="p"
           >
-            Estimated Delivery : 3/2/2019
+            Estimated Delivery : 4/2/2019
           </CardText>
           <div
             className="horizontal-line"
