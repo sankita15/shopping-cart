@@ -19,13 +19,6 @@ export default class LoginPage extends React.Component {
         };
     }
 
-    validate(fieldName, fieldValue) {
-        const usernameRex = /^[a-zA-Z0-9]{3,10}$/;
-        const passwordRex = /^[a-zA-Z0-9!@#$%^&*]{4,8}$/;
-        const regex = fieldName === 'username' ? usernameRex : passwordRex;
-        return fieldValue.length > 0 && this.handleFieldChange(fieldName, fieldValue, regex);
-    }
-
     handleFieldChange(fieldName, fieldValue, regex) {
         const result = regex.test(fieldValue) ? fieldValue : '';
         this.setState({
@@ -54,7 +47,7 @@ export default class LoginPage extends React.Component {
                                         name="username"
                                         className="login-form__textfield"
                                         placeholder="Username"
-                                        onChange={e => this.validate('username', e.target.value)}
+                                        onChange={e => this.handleFieldChange('username', e.target.value, /^[a-zA-Z0-9]{3,10}$/)}
                                         invalid={!username && username !== null}
                                     />
                                     <FormFeedback>Snap! your username is not valid</FormFeedback>
@@ -73,7 +66,7 @@ export default class LoginPage extends React.Component {
                                         name="password"
                                         className="login-form__textfield"
                                         placeholder="*******"
-                                        onChange={e => this.validate('password', e.target.value)}
+                                        onChange={e => this.handleFieldChange('password', e.target.value, /^[a-zA-Z0-9!@#$%^&*]{4,8}$/)}
                                         invalid={!password && password !== null}
                                     />
                                     <FormFeedback>
