@@ -28,14 +28,14 @@ export default class Products extends React.Component {
 
         return (
             <div className="product-login">
-                {products.map(itemDetails => (
+                {products.map(({productName, price, description, imageUrl, id}) => (
                     <Item
-                        productName={itemDetails.productName}
-                        price={itemDetails.price}
-                        description={itemDetails.description}
-                        imageUrl={itemDetails.imageUrl}
-                        id={itemDetails.id}
-                        key={itemDetails.id}
+                        productName={productName}
+                        price={price}
+                        description={description}
+                        imageUrl={imageUrl}
+                        id={id}
+                        key={id}
                     />
                 ))}
             </div>
