@@ -52,7 +52,6 @@ export default class OrderPage extends React.Component {
                 <CardText className="product-rating">
                     {`Star Rating: ${starRating}`}
                 </CardText>
-                {/* TODO: REFACTOR DATE */}
                 <CardText className="product-delivery">
                     {`Estimated Delivery : ${`${deliveryDate.getDate()}/${deliveryDate.getMonth() + 1}/${deliveryDate.getFullYear()}`}`}
                 </CardText>
