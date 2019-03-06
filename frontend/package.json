@@ -21,7 +21,6 @@
   },
   "homepage": "https://github.com/sankita15/shopping-cart#readme",
   "dependencies": {
-    "bootstrap": "^4.2.1",
     "eslint": "^5.13.0",
     "prop-types": "^15.7.1",
     "react": "^16.2.0",

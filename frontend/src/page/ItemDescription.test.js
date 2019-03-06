@@ -132,85 +132,36 @@ describe('Item Description Page', () => {
 
     window.location.assign = jest.fn();
 
-    it('should render Item Description Page', async () => {
+    describe('Item Description Page', () => {
+        it('should render Item Description Page', async () => {
         // eslint-disable-next-line no-undef
-        await flushPromises();
+            await flushPromises();
 
-        const image = component.find(Media);
-        const label = component.find(Label);
-        const button = component.find(Button);
+            const image = component.find(Media);
+            const label = component.find(Label);
+            const button = component.find(Button);
 
-        expect(image.length)
-            .toBe(1);
-        expect(label.length)
-            .toBe(6);
-        expect(button.length)
-            .toBe(2);
-    });
-
-    it('should match snapshot', () => {
-        expect(component).toMatchSnapshot();
-    });
-
-    it('should call fetch to render item description', async () => {
-        expect(fetch).toHaveBeenCalledWith(`/api/carts/user/${defaultProps.user}`, {
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            expect(image.length)
+                .toBe(1);
+            expect(label.length)
+                .toBe(6);
+            expect(button.length)
+                .toBe(2);
         });
 
-        expect(fetch).toHaveBeenCalledWith('/api/carts', {
-            credentials: 'include',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: expect.any(String),
+        it('should match snapshot', () => {
+            expect(component).toMatchSnapshot();
         });
 
-        expect(fetch).toHaveBeenCalledWith(`/api/products/${defaultProps.id}`, { credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            } });
-
-        expect(component.find(Media).prop('src')).toBe(ITEM.imageUrl);
-    });
-
-    it('should call fetch for getting cart data if no cart present', async () => {
-        fetch.mockResolvedValueOnce({ status: 404 });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(CART), ok: true });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true });
-
-        // const component = createWrapper();
-        const addToCart = component.find(Button).at(0);
-
-        addToCart.simulate('click');
-
-        component.update();
-
-        // eslint-disable-next-line no-undef
-        await flushPromises();
-
-        expect(fetch.mock.calls.length)
-            .toBe(6);
-
-        expect(fetch.mock.calls[0][0])
-            .toBe(`/api/carts/user/${defaultProps.user}`);
-
-        expect(fetch.mock.calls[0][1])
-            .toEqual({
+        it('should call fetch to render item description', async () => {
+            expect(fetch).toHaveBeenCalledWith(`/api/carts/user/${defaultProps.user}`, {
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
 
-
-        expect(fetch.mock.calls[1][0])
-            .toBe('/api/carts');
-        expect(fetch.mock.calls[1][1])
-            .toEqual({
+            expect(fetch).toHaveBeenCalledWith('/api/carts', {
                 credentials: 'include',
                 method: 'POST',
                 headers: {
@@ -219,172 +170,121 @@ describe('Item Description Page', () => {
                 body: expect.any(String),
             });
 
-        expect(fetch.mock.calls[2][0])
-            .toBe(`/api/products/${defaultProps.id}`);
-
-        expect(fetch.mock.calls[2][1])
-            .toEqual({
-                credentials: 'include',
+            expect(fetch).toHaveBeenCalledWith(`/api/products/${defaultProps.id}`, { credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
-                },
-            });
+                } });
 
-
-        expect(fetch.mock.calls[3][0])
-            .toBe(`/api/carts/user/${defaultProps.user}`);
-
-        expect(fetch.mock.calls[3][1])
-            .toEqual({
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-
-        expect(fetch.mock.calls[4][0])
-            .toBe('/api/carts');
-        expect(fetch.mock.calls[4][1])
-            .toEqual({
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: expect.any(String),
-            });
-        expect(JSON.parse(fetch.mock.calls[4][1].body))
-            .toEqual({
-                ...EMPTY_CART,
-                lastModified: expect.any(Number),
-                orderDate: expect.any(Number),
-            });
-
-
-        expect(fetch.mock.calls[5][0])
-            .toBe(`/api/carts/${CART.id}/product/${ITEM.id}`);
-        expect(fetch.mock.calls[5][1])
-            .toEqual({
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'POST',
-            });
+            expect(component.find(Media).prop('src')).toBe(ITEM.imageUrl);
+        });
     });
 
-    it('should create new cart on placing order if no more pending cart available', async () => {
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(ORDERED_CART), ok: true });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(CART), ok: true });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true });
+    describe('Add To Cart', () => {
+        it('should call fetch for getting cart data if no cart present', async () => {
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true });
 
-        // const component = createWrapper();
-        const addToCart = component.find(Button).at(0);
+            const addToCart = component.find(Button).at(0);
 
-        addToCart.simulate('click');
+            addToCart.simulate('click');
 
-        component.update();
+            component.update();
 
-        // eslint-disable-next-line no-undef
-        await flushPromises();
+            // eslint-disable-next-line no-undef
+            await flushPromises();
 
-        expect(fetch.mock.calls.length)
-            .toBe(6);
+            expect(fetch.mock.calls.length)
+                .toBe(4);
 
-        expect(fetch.mock.calls[3][0])
-            .toBe(`/api/carts/user/${defaultProps.user}`);
+            expect(fetch.mock.calls[3][0])
+                .toBe(`/api/carts/${CART.id}/product/${ITEM.id}`);
+            expect(fetch.mock.calls[3][1])
+                .toEqual({
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST',
+                });
+        });
 
-        expect(fetch.mock.calls[3][1])
-            .toEqual({
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+        it('should create new cart for placing order if no more pending cart available', async () => {
+            fetch.resetMocks();
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(ORDERED_CART), ok: true });
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(CART), ok: true });
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(ITEM), ok: true });
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true });
 
+            const wrapper = createWrapper();
 
-        expect(fetch.mock.calls[4][0])
-            .toBe('/api/carts');
-        expect(fetch.mock.calls[4][1])
-            .toEqual({
-                credentials: 'include',
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: expect.any(String),
-            });
-        expect(JSON.parse(fetch.mock.calls[4][1].body))
-            .toEqual({
-                ...EMPTY_CART,
-                lastModified: expect.any(Number),
-                orderDate: expect.any(Number),
-            });
+            // eslint-disable-next-line no-undef
+            await flushPromises();
 
+            const addToCart = wrapper.find(Button).at(0);
 
-        expect(fetch.mock.calls[5][0])
-            .toBe(`/api/carts/${CART.id}/product/${ITEM.id}`);
-        expect(fetch.mock.calls[5][1])
-            .toEqual({
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                method: 'POST',
-            });
+            addToCart.simulate('click');
+
+            wrapper.update();
+
+            expect(fetch.mock.calls.length)
+                .toBe(4);
+
+            expect(fetch.mock.calls[3][0])
+                .toBe(`/api/carts/${CART.id}/product/${ITEM.id}`);
+            expect(fetch.mock.calls[3][1])
+                .toEqual({
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST',
+                });
+        });
+
+        it('should increment items in cart quantity when click on ADD TO CART icon', async () => {
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true });
+
+            expect(component.find(Row).at(0).find(Label).prop('children')).toEqual(0);
+
+            const addToCartButton = component.find(Button).at(0);
+            addToCartButton.simulate('click');
+
+            // eslint-disable-next-line no-undef
+            await flushPromises();
+
+            component.update();
+
+            expect(component.find(Row).at(0).find(Label).prop('children')).toEqual(1);
+        });
     });
 
-    it('should redirect to /carts Page when click on CART icon', async () => {
-        fetch.mockResolvedValueOnce({ status: 404 });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(CART), ok: true });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true });
-        const cartIcon = component.find(Row).at(1).find(FaCartPlus);
-        cartIcon.simulate('click');
+    describe('Buy Now', () => {
+        it('should redirect to BuyNow Page by adding product when click on BUY NOW button', async () => {
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true });
 
-        component.update();
+            const button = component.find(Button).at(1);
+            button.simulate('click');
 
-        // eslint-disable-next-line no-undef
-        await flushPromises();
+            expect(component.find(Row).at(0).find(Label).prop('children')).toEqual(0);
 
-        expect(window.location.assign).toHaveBeenCalledWith('/carts');
+            component.update();
+
+            // eslint-disable-next-line no-undef
+            await flushPromises();
+
+            expect(component.find(Row).at(0).find(Label).prop('children')).toEqual(1);
+
+            expect(window.location.assign).toHaveBeenCalledWith('/buy');
+        });
     });
 
-    it('should increment items in cart quantity when click on ADD TO CART icon',async () => {
-        fetch.mockResolvedValueOnce({ status: 404 });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(CART), ok: true });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true });
+    describe('Click on cart icon', () => {
+        it('should redirect to /carts Page when click on CART icon', () => {
+            const cartIcon = component.find(Row).at(1).find(FaCartPlus);
+            cartIcon.simulate('click');
 
-        expect(component.find(Row).at(0).find(Label).prop('children')).toEqual(0);
+            component.update();
 
-        const addToCartButton = component.find(Button).at(0);
-        addToCartButton.simulate('click');
-
-        // eslint-disable-next-line no-undef
-        await flushPromises();
-
-        component.update();
-
-        expect(component.find(Row).at(0).find(Label).prop('children')).toEqual(1);
-    });
-
-    it('should redirect to BuyNow Page by adding product when click on BUY NOW button', async () => {
-        fetch.mockResolvedValueOnce({ status: 404 });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(CART), ok: true });
-        fetch.mockResolvedValueOnce({ json: () => Promise.resolve(FILLED_CART), ok: true });
-
-        const button = component.find(Button).at(1);
-        button.simulate('click');
-
-        expect(component.find(Row).at(0).find(Label).prop('children')).toEqual(0);
-
-        component.update();
-
-        // eslint-disable-next-line no-undef
-        await flushPromises();
-
-        expect(component.find(Row).at(0).find(Label).prop('children')).toEqual(1);
-
-        expect(window.location.assign).toHaveBeenCalledWith('/buy');
+            expect(window.location.assign).toHaveBeenCalledWith('/carts');
+        });
     });
 });

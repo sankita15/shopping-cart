@@ -6,11 +6,18 @@ import { FaCartPlus } from 'react-icons/fa';
 export default class ItemDescription extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            cartQuantity: 0,
+            item: {},
+            cartDetails: {},
+        };
+    }
 
-        const cartDetails = {
-            id: '',
-            status: null,
-            username: props.user,
+    createCart() {
+        const { user } = this.props;
+
+        const initialCart = {
+            username: user,
             products: {},
             productQuantities: {},
             lastModified: Date.now(),
@@ -18,39 +25,20 @@ export default class ItemDescription extends React.Component {
             totalPrice: 0,
         };
 
-        this.state = {
-            cartQuantity: 0,
-            item: {
-                productName: '',
-                description: '',
-                imageUrl: '',
-                price: 0,
-                startRating: 0,
-                productCode: '',
-                stock: 0,
-            },
-            cartDetails,
-            allCarts: [cartDetails],
-        };
-    }
-
-    createCart() {
-        const { cartDetails } = this.state;
-
         return fetch('/api/carts', {
             credentials: 'include',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(cartDetails),
+            body: JSON.stringify(initialCart),
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(updatedCart => this.setState({ allCarts: [updatedCart] }))
+            .then(newCart => this.setState({ cartDetails: newCart }))
             .catch(status => console.log('cart creation failed', status));
     }
 
-    checkIfCartExist() {
+    getUserCartDetails() {
         const { user } = this.props;
 
         return fetch(`/api/carts/user/${user}`, {
@@ -60,7 +48,8 @@ export default class ItemDescription extends React.Component {
             },
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(cart => this.setState({ allCarts: cart }))
+            .then(allCart => allCart.filter(cart => cart.status === 'pending')[0])
+            .then(cartDetails => (cartDetails === undefined ? Promise.reject(404) : this.setState({ cartDetails })))
             .catch((status) => {
                 if ([404].includes(status)) {
                     return this.createCart();
@@ -68,28 +57,11 @@ export default class ItemDescription extends React.Component {
             });
     }
 
-    isPendingCartAvailable() {
-        const { allCarts } = this.state;
-
-        const pendingCart = allCarts.filter(cart1 => cart1.status === 'pending');
-
-        return pendingCart.length !== 0;
-    }
-
     async addToCart() {
-        await this.checkIfCartExist();
-
-        if (!this.isPendingCartAvailable()) {
-            await this.createCart();
-        }
-
-        const { allCarts } = this.state;
-
+        const { cartDetails: { id: cartId } } = this.state;
         const { id: productId } = this.props;
 
-        const pendingCartIndex = allCarts.findIndex(cart1 => cart1.status === 'pending');
-
-        await fetch(`/api/carts/${allCarts[pendingCartIndex].id}/product/${productId}`, {
+        await fetch(`/api/carts/${cartId}/product/${productId}`, {
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
@@ -97,20 +69,16 @@ export default class ItemDescription extends React.Component {
             method: 'POST',
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(cart => this.setState({ allCarts: [cart] }))
-            .then(() => this.calculateCartQuantity(pendingCartIndex))
-            .catch(status => console.warn('Failed', status));
+            .then(cartWithProduct => this.setState({ cartDetails: cartWithProduct }))
+            .then(() => this.calculateCartQuantity())
+            .catch(status => console.warn('Failed to add product in cart', status));
     }
 
 
     async componentDidMount() {
         const { id } = this.props;
 
-        await this.checkIfCartExist();
-
-        const { allCarts } = this.state;
-
-        const pendingCartIndex = allCarts.findIndex(cart1 => cart1.status === 'pending');
+        await this.getUserCartDetails();
 
         fetch(`/api/products/${id}`, {
             credentials: 'include',
@@ -120,7 +88,7 @@ export default class ItemDescription extends React.Component {
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
             .then(item => this.setState({ item }))
-            .then(() => this.calculateCartQuantity(pendingCartIndex))
+            .then(() => this.calculateCartQuantity())
             .catch(e => (console.warn(e)));
     }
 
@@ -134,7 +102,7 @@ export default class ItemDescription extends React.Component {
                         <Label className="cart-quantity">{cartQuantity}</Label>
                     </Row>
                     <Row>
-                        <FaCartPlus size={45} onClick={() => this.redirectToCartPage()} />
+                        <FaCartPlus size={45} onClick={() => this.navigateToPage('/carts')} />
                     </Row>
                 </div>
                 <div className="item-image">
@@ -164,38 +132,33 @@ export default class ItemDescription extends React.Component {
                     </div>
                     <div className="button-group">
                         <Button className="cart" onClick={() => this.addToCart()}>ADD TO CART</Button>
-                        <Button className="buy" onClick={() => this.redirectToBuyNowPage()}>BUY NOW</Button>
+                        <Button className="buy" onClick={() => this.addProductAndNavigateToBuyPage()}>BUY NOW</Button>
                     </div>
                 </div>
             </div>
         );
     }
 
-    redirectToCartPage = () => window.location.assign('/carts');
+    navigateToPage = route => window.location.assign(route);
 
-    async redirectToBuyNowPage() {
+    async addProductAndNavigateToBuyPage() {
         await this.addToCart();
-
-        window.location.assign('/buy');
+        this.navigateToPage('/buy');
     }
 
-    calculateCartQuantity(pendingCartIndex) {
-        const { allCarts } = this.state;
+    calculateCartQuantity() {
+        const { cartDetails: { productQuantities } } = this.state;
 
-        if (pendingCartIndex !== -1 && Object.keys(allCarts[pendingCartIndex].products).length !== 0) {
-            const { productQuantities } = allCarts[pendingCartIndex];
+        const quantity = Object.values(productQuantities)
+            .reduce(((previousValue, productQuantity) => previousValue + productQuantity), 0);
 
-            const quantity = Object.keys(productQuantities).map(productId => productQuantities[productId])
-                .reduce((acc, value) => acc + value);
-
-            this.setState({
-                cartQuantity: quantity,
-            });
-        }
+        this.setState({
+            cartQuantity: quantity,
+        });
     }
 }
 
 ItemDescription.propTypes = {
-    id: PropTypes.string,
-    user: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    user: PropTypes.string.isRequired,
 };

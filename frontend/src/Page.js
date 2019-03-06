@@ -29,12 +29,7 @@ const Page = props => (
             <Route
                 exact
                 path="/products/:id"
-                render={routerProps => (
-                    <ItemDescription
-                        {...props}
-                        id={routerProps.match.params.id}
-                    />
-                )}
+                render={({ match: { params: { id } } }) => <ItemDescription {...props} id={id} />}
             />
             <Route exact path="/buy">
                 <OrderPage {...props} />
