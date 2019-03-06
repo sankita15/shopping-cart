@@ -9,19 +9,6 @@ describe('Order Page', () => {
         user: 'alice',
     };
 
-    const EMPTY_CART = [
-        {
-            id: '5c6bf8a306057eeb12dfb7c4',
-            status: 'pending',
-            username: 'alice',
-            products: {},
-            productQuantities: {},
-            lastModified: 1551162037567,
-            orderDate: 1550482348428,
-            totalPrice: 547,
-        },
-    ];
-
     const CART = [{
         id: '5c6bf8a306057eeb12dfb7c4',
         status: 'pending',
