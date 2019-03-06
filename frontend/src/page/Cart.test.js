@@ -229,7 +229,7 @@ describe('carts page', () => {
         });
     });
 
-    it('should render message when when CART is not created', async () => {
+    it('should render message when CART is not created', async () => {
         fetch.resetMocks();
 
         fetch.mockResolvedValueOnce({ json: () => Promise.resolve([{}]), ok: true });
@@ -259,7 +259,7 @@ describe('carts page', () => {
         expect(message.length).toBe(1);
     });
 
-    it('should render Cart Empty message when there is no pending cart available',async () => {
+    it('should render Cart Empty message when there is no pending cart available', async () => {
         fetch.resetMocks();
 
         fetch.mockResolvedValueOnce({ json: () => Promise.resolve(ORDERED_CART), ok: true });
@@ -302,6 +302,9 @@ describe('carts page', () => {
         addIcon.simulate('click');
 
         component.update();
+
+        // eslint-disable-next-line no-undef
+        await flushPromises();
 
         expect(fetch).toHaveBeenCalledWith('/api/carts/5c6bf8a306057eeb12dfb7c4/product/59d89875479ded2a718bac13', {
             credentials: 'include',

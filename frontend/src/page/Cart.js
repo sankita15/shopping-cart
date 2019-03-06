@@ -9,7 +9,7 @@ export default class Cart extends React.Component {
         super(props);
 
         this.state = {
-            allCarts: [],
+            cartDetails: {},
         };
     }
 
@@ -23,27 +23,22 @@ export default class Cart extends React.Component {
             },
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then((carts) => {
-                // TODO: USE DATA MARSHALLING METHOD BEFORE setState
-                this.setState({ allCarts: carts });
-            })
+            .then(allCart => allCart.filter(cart => cart.status === 'pending')[0])
+            // TODO: USE DATA MARSHALLING METHOD BEFORE setState
+            .then(cartDetails => (cartDetails === undefined ? Promise.reject(404) : this.setState({ cartDetails })))
             .catch(status => console.warn(status));
     }
 
     getProductLink = productId => `/products/${productId}`;
 
-    getRows(pendingCartIndex) {
-        const { allCarts } = this.state;
-
-        const { products } = allCarts[pendingCartIndex];
-
-        const { productQuantities } = allCarts[pendingCartIndex];
+    getRows() {
+        const { cartDetails: { products, productQuantities } } = this.state;
 
         return Object.keys(products)
-            .map(productId => this.createRow(products[productId], productQuantities[productId], pendingCartIndex));
+            .map(productId => this.createRow(products[productId], productQuantities[productId]));
     }
 
-    createRow({ id, imageUrl, productName, price }, productQuantity, pendingCartIndex) {
+    createRow({ id, imageUrl, productName, price }, productQuantity) {
         return (
             <tr key={id}>
                 <td>
@@ -64,22 +59,18 @@ export default class Cart extends React.Component {
                     </Label>
                 </td>
                 <td>
-                    <FaMinusSquare className="cart-minus" onClick={() => this.reduceProductFromCart(id, pendingCartIndex)} />
+                    <FaMinusSquare className="cart-minus" onClick={() => this.updateProductInCart(id, 'DELETE')} />
                     <Label className="cart-quantity-label">
                         {productQuantity}
                     </Label>
-                    <FaPlusSquare className="cart-plus" onClick={() => this.addProductToCart(id, pendingCartIndex)} />
+                    <FaPlusSquare className="cart-plus" onClick={() => this.updateProductInCart(id, 'POST')} />
                 </td>
             </tr>
         );
     }
 
     render() {
-        const { allCarts } = this.state;
-
-        const pendingCartIndex = allCarts.findIndex(cart => cart.status === 'pending');
-
-        if (pendingCartIndex === -1 || this.isCartEmpty(pendingCartIndex)) {
+        if (!this.isCartEmpty()) {
             return <Label>Your Cart is empty.Please add item to your cart</Label>;
         }
 
@@ -95,56 +86,42 @@ export default class Cart extends React.Component {
                             <th>Quantity</th>
                         </tr>
                     </thead>
-                    <tbody>{this.getRows(pendingCartIndex)}</tbody>
+                    <tbody>{this.getRows()}</tbody>
                 </Table>
                 <div className="table-row">
                     <Label className="table-final-row">
-                        {`SubTotal: ${this.getTotalPrice(pendingCartIndex)}`}
+                        {`SubTotal: ${this.getTotalPrice()}`}
                     </Label>
                 </div>
             </div>
         );
     }
 
-    isCartEmpty(pendingCartIndex) {
-        const { allCarts } = this.state;
-        return Object.keys(allCarts[pendingCartIndex].products).length === 0;
+    isCartEmpty() {
+        const { cartDetails } = this.state;
+        return Object.keys(cartDetails).length !== 0 && Object.keys(cartDetails.products).length !== 0;
     }
 
-    addProductToCart(productId, pendingCartIndex) {
-        const { allCarts } = this.state;
+    updateProductInCart(productId, methodName) {
+        const { cartDetails: {id: cartId} } = this.state;
 
-        fetch(`/api/carts/${allCarts[pendingCartIndex].id}/product/${productId}`, {
+        fetch(`/api/carts/${cartId}/product/${productId}`, {
             credentials: 'include',
-            method: 'POST',
+            method: methodName,
             headers: {
                 'Content-Type': 'application/json',
             },
         }).then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(cartDetails => this.setState({ allCarts: [cartDetails] }))
+            .then(cartDetails => this.setState({ cartDetails }))
             .catch(status => console.warn(status));
     }
 
-    reduceProductFromCart(productId, pendingCartIndex) {
-        const { allCarts } = this.state;
-
-        fetch(`/api/carts/${allCarts[pendingCartIndex].id}/product/${productId}`, {
-            credentials: 'include',
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(cartDetails => this.setState({ allCarts: [cartDetails] }))
-            .catch(status => console.warn(status));
-    }
-
-    getTotalPrice(pendingCartIndex) {
-        const { allCarts } = this.state;
-        return allCarts[pendingCartIndex].totalPrice;
+    getTotalPrice() {
+        const { cartDetails: { totalPrice } } = this.state;
+        return totalPrice;
     }
 }
 
 Cart.propTypes = {
-    user: PropTypes.string,
+    user: PropTypes.string.isRequired,
 };
