@@ -38,7 +38,7 @@ public class CartUser {
         this.password = password;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return username;
     }
 

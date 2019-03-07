@@ -61,7 +61,7 @@ public class CartUserRestController {
                 new CartUser(
                         input.firstName,
                         input.lastName,
-                        input.getUserName(),
+                        input.getUsername(),
                         input.getPassword(),
                         input.email
                 ));

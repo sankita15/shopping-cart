@@ -34,6 +34,9 @@ const Page = props => (
             <Route exact path="/buy">
                 <OrderPage {...props} />
             </Route>
+            <Route exact path="/register">
+                <RegistrationPage />
+            </Route>
         </Switch>
     </Router>
 );
