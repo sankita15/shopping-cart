@@ -34,7 +34,7 @@ const Page = props => (
             <Route exact path="/buy">
                 <OrderPage {...props} />
             </Route>
-            <Route exact path="/register">
+            <Route exact path="/users/signup">
                 <RegistrationPage />
             </Route>
         </Switch>
