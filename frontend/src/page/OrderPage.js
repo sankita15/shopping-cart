@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, Label, CardText, Col, CardBody, Button, Media, Row, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
+import ContainerPage from './ContainerPage';
 
-export default class OrderPage extends React.Component {
+export default class OrderPage extends ContainerPage {
     constructor(props) {
         super(props);
         this.state = {
@@ -10,25 +11,8 @@ export default class OrderPage extends React.Component {
             showAlert: false,
             isDisabled: false,
         };
-    }
 
-    componentDidMount() {
-        const { user } = this.props;
-
-        fetch(`/api/carts/user/${user}`, {
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).then(res => (res.ok ? res.json() : Promise.reject(res.status)))
-            .then(allCarts => allCarts.filter(pendingCart => pendingCart.status === 'pending')[0])
-            .then(cartDetails => ((cartDetails === undefined) ? Promise.reject(404) : this.setState({ cartDetails })))
-            .catch(status => console.warn(status));
-    }
-
-    isCartEmpty() {
-        const { cartDetails } = this.state;
-        return Object.keys(cartDetails).length !== 0 && Object.keys(cartDetails.products).length !== 0;
+        console.log(JSON.stringify(this.state),"--------------------------------")
     }
 
     getProduct = ({ id, productName, productCode, price, imageUrl, starRating }, productQuantity) => {
@@ -60,13 +44,6 @@ export default class OrderPage extends React.Component {
         );
     };
 
-    getCartProducts() {
-        const { cartDetails: { products, productQuantities } } = this.state;
-
-        return Object.keys(products)
-            .map(productId => this.getProduct(products[productId], productQuantities[productId]));
-    }
-
     placeOrder() {
         const { cartDetails: { id } } = this.state;
 
@@ -95,11 +72,14 @@ export default class OrderPage extends React.Component {
     }
 
     render() {
+        // console.log(JSON.stringify(this.state),"---------_________________________-----------------------")
+
         const { user } = this.props;
         const { showAlert, isDisabled } = this.state;
+        const { cartDetails } = this.props;
         const delivery = 40;
 
-        if (!this.isCartEmpty()) {
+        if (!this.isCartEmpty(cartDetails)) {
             return <Label>Your Cart is empty.Please add item to your cart</Label>;
         }
 
@@ -119,7 +99,7 @@ export default class OrderPage extends React.Component {
                         <Card className="order-value-card">
                             <CardBody className="order-price">
                                 <CardText className="order-summary">Order Summary</CardText>
-                                <CardText>{`Items: ${this.getTotalPrice()}`}</CardText>
+                                <CardText>{`Items Price: ${this.getTotalPrice()}`}</CardText>
                                 <CardText>
                                     {' '}
                                     {`Delivery: Rs ${delivery}`}
@@ -144,11 +124,6 @@ export default class OrderPage extends React.Component {
             showAlert: false,
         });
         this.redirectToProductPage();
-    }
-
-    getTotalPrice() {
-        const { cartDetails: { totalPrice } } = this.state;
-        return totalPrice;
     }
 
     redirectToProductPage = () => window.location.assign('/products');

@@ -35,16 +35,17 @@ public class CartUserRestController {
 
     @PostMapping("/signup")
     ResponseEntity<?> signUp(@RequestBody CartUser cartUser) {
+        System.out.println(cartUser);
         cartUser.setPassword(bCryptPasswordEncoder.encode(cartUser.getPassword()));
-        if(cartUserRepository.findByUsername(cartUser.getUserName()) != null){
-            throw new UserNameExistsException(cartUser.getUserName());
+        if(cartUserRepository.findByUsername(cartUser.getUsername()) != null){
+            throw new UserNameExistsException(cartUser.getUsername());
         }
         else if(cartUserRepository.findByEmail(cartUser.email) != null){
             throw new UserEmailExistsException(cartUser.email);
         }
         else {
             CartUser newUser = cartUserRepository.save(cartUser);
-            return ResponseEntity.ok("User '" + newUser.getUserName() +"' created.");
+            return ResponseEntity.ok("User '" + newUser.getUsername() +"' created.");
         }
     }
 
