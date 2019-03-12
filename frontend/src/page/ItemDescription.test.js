@@ -22,6 +22,43 @@ describe('Item Description Page', () => {
         stock: 400,
     };
 
+    const OUT_OF_STOCK_ITEM = {
+        id: '5c868bc406057e1cf0ab11f1',
+        productName: 'Garden Cart',
+        productCode: 'GDN-0023',
+        description: '15 gallon capacity rolling garden cart',
+        price: 3295,
+        starRating: 4.2,
+        imageUrl: 'http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png',
+        stock: 0,
+    };
+
+    const OUT_OF_STOCK_CART = [{
+        id: '5c868c1206057e2278747208',
+        status: 'pending',
+        username: 'alice',
+        products: {
+            '5c868bc406057e1cf0ab11f1': {
+                'id': '5c868bc406057e1cf0ab11f1',
+                'productName': 'Garden Cart',
+                'productCode': 'GDN-0023',
+                'releaseDate': 1489805155570,
+                'lastModified': 1552321476007,
+                'description': '15 gallon capacity rolling garden cart',
+                'price': 3295,
+                'starRating': 4.2,
+                'imageUrl': 'http://openclipart.org/image/300px/svg_to_png/58471/garden_cart.png',
+                'stock': 0,
+            },
+        },
+        productQuantities: {
+            '5c868bc406057e1cf0ab11f1': 20,
+        },
+        lastModified: 1552386843888,
+        orderDate: 1552370305496,
+        totalPrice: 19770,
+    }];
+
     const ORDERED_CART = [{
         id: '5c71694e06057e0960b31579',
         status: 'ordered',
@@ -254,6 +291,47 @@ describe('Item Description Page', () => {
             component.update();
 
             expect(component.find(Row).at(0).find(Label).prop('children')).toEqual(1);
+        });
+
+        it('should render label for product quantity is out of stock', async () => {
+            fetch.resetMocks();
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(OUT_OF_STOCK_CART), ok: true });
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(OUT_OF_STOCK_ITEM), ok: true });
+
+            const wrapper = createWrapper();
+
+            // eslint-disable-next-line no-undef
+            await flushPromises();
+
+            expect(wrapper.find(Button).at(0).prop('disabled')).toBeTruthy();
+            expect(wrapper.find(Button).at(1).prop('disabled')).toBeTruthy();
+            expect(wrapper.find(Label).at(6).length).toEqual(1);
+            expect(wrapper.find(Label).at(6).prop('children')).toEqual('Out Of Stock');
+        });
+
+        it('should render label for product quantity out of stock after user clicks on add to cart button',async () => {
+            fetch.resetMocks();
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve([FILLED_CART]), ok: true });
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(OUT_OF_STOCK_ITEM), ok: true });
+            fetch.mockResolvedValueOnce({ json: () => Promise.resolve(OUT_OF_STOCK_CART), ok: true });
+
+            const wrapper = createWrapper();
+
+            // eslint-disable-next-line no-undef
+            await flushPromises();
+
+            const addToCartButton = wrapper.find(Button).at(0);
+            addToCartButton.simulate('click');
+
+            // eslint-disable-next-line no-undef
+            await flushPromises();
+
+            wrapper.update();
+
+            expect(wrapper.find(Button).at(0).prop('disabled')).toBeTruthy();
+            expect(wrapper.find(Button).at(1).prop('disabled')).toBeTruthy();
+            expect(wrapper.find(Label).at(6).length).toEqual(1);
+            expect(wrapper.find(Label).at(6).prop('children')).toEqual('Out Of Stock');
         });
     });
 

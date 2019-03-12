@@ -133,6 +133,7 @@ exports[`Item Description Page Item Description Page should match snapshot 1`] =
       <Button
         className="cart"
         color="secondary"
+        disabled={false}
         onClick={[Function]}
         tag="button"
       >
@@ -141,6 +142,7 @@ exports[`Item Description Page Item Description Page should match snapshot 1`] =
       <Button
         className="buy"
         color="secondary"
+        disabled={false}
         onClick={[Function]}
         tag="button"
       >
