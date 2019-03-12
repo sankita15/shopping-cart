@@ -114,6 +114,11 @@ public class ShoppingCartRestController {
             throw new ProductNotFoundException(productId);
         }
 
+        if(product.getStock() == 0){
+            logger.error("---Unable to update product'" + productId +"' out of stock---");
+            throw new ProductStockException(cartId, productId);
+        }
+
         cart.addProduct(product);
         cart.addProductQuantity(product);
         cart.lastModified = new Date();
