@@ -83,7 +83,7 @@ export default class OrderPage extends React.Component {
         const { user } = this.props;
         const { showAlert, isDisabled, cartDetails } = this.state;
         const delivery = 40;
-
+        
         if (!isCartEmpty(cartDetails)) {
             return <Label>Your Cart is empty.Please add item to your cart</Label>;
         }

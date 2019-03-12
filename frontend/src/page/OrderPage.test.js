@@ -95,6 +95,9 @@ describe('Order Page', () => {
         fetch.mockResolvedValueOnce({ json: () => Promise.resolve(CART), ok: true });
 
         component = createWrapper();
+
+        // eslint-disable-next-line no-undef
+        await flushPromises();
     });
 
     it('should match snapshot', () => {
