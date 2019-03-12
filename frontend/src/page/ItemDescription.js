@@ -10,6 +10,8 @@ export default class ItemDescription extends React.Component {
             cartQuantity: 0,
             item: {},
             cartDetails: {},
+            showOutOfStockLabel: false,
+            disabled: false,
         };
     }
 
@@ -71,7 +73,11 @@ export default class ItemDescription extends React.Component {
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
             .then(cartWithProduct => this.setState({ cartDetails: cartWithProduct }))
             .then(() => this.calculateCartQuantity())
-            .catch(status => console.warn('Failed to add product in cart', status));
+            .catch((status) => {
+                if (status === 409) {
+                    this.toggle();
+                }
+            });
     }
 
 
@@ -88,12 +94,13 @@ export default class ItemDescription extends React.Component {
         })
             .then(res => (res.ok ? res.json() : Promise.reject(res.status)))
             .then(item => this.setState({ item }))
+            .then(() => this.isProductAvailable())
             .then(() => this.calculateCartQuantity())
             .catch(e => (console.warn(e)));
     }
 
     render() {
-        const { item: { productName, description, price, imageUrl, starRating, productCode }, cartQuantity } = this.state;
+        const { item: { productName, description, price, imageUrl, starRating, productCode }, cartQuantity, disabled, showOutOfStockLabel } = this.state;
 
         return (
             <div className="item-detail-page">
@@ -112,27 +119,37 @@ export default class ItemDescription extends React.Component {
                     <div className="item-details">
                         <Label className="item-name">{productName}</Label>
                         <Label>
-                                Star Rating:
+                            Star Rating:
                             {starRating}
                         </Label>
                         <Label>
-                                Product Code:
+                            Product Code:
                             {productCode}
                         </Label>
                         <Label>
-                                Description:
+                            Description:
                             {description}
                         </Label>
                         <Label>
-                                Rs.
+                            Rs.
                             {price}
                         </Label>
+                        { showOutOfStockLabel && this.renderOutOfStockLabel() }
                         <br />
                         <br />
                     </div>
                     <div className="button-group">
-                        <Button className="cart" onClick={() => this.addToCart()}>ADD TO CART</Button>
-                        <Button className="buy" onClick={() => this.addProductAndNavigateToBuyPage()}>BUY NOW</Button>
+                        <Button className="cart" onClick={() => this.addToCart()} disabled={disabled}>
+ADD TO
+                            CART
+                        </Button>
+                        <Button
+                            className="buy"
+                            onClick={() => this.addProductAndNavigateToBuyPage()}
+                            disabled={disabled}
+                        >
+BUY NOW
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -152,10 +169,31 @@ export default class ItemDescription extends React.Component {
         const quantity = Object.values(productQuantities)
             .reduce(((previousValue, productQuantity) => previousValue + productQuantity), 0);
 
+
         this.setState({
             cartQuantity: quantity,
         });
     }
+
+    isProductAvailable() {
+        const { item: { stock } } = this.state;
+        if (stock === 0) {
+            this.toggle();
+        }
+    }
+
+    toggle() {
+        this.setState(prevState => ({
+            showOutOfStockLabel: !prevState.showOutOfStockLabel,
+            disabled: !prevState.disabled,
+        }));
+    }
+
+    renderOutOfStockLabel = () => (
+        <div>
+            <Label className="out-of-stock-label">Out Of Stock</Label>
+        </div>
+    );
 }
 
 ItemDescription.propTypes = {
