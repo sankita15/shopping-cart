@@ -1,17 +1,28 @@
 /* eslint-disable react/jsx-no-target-blank */
 import React from 'react';
-import { Table, Media, Label } from 'reactstrap';
-import { FaPlusSquare, FaMinusSquare } from 'react-icons/fa';
+import { Label, Media, Table } from 'reactstrap';
+import { FaMinusSquare, FaPlusSquare } from 'react-icons/fa';
 import PropTypes from 'prop-types';
-import ContainerPage from './ContainerPage';
+import { getCartProducts, getCartResponse, getTotalPrice, isCartEmpty } from './CartAvailability';
 
-export default class Cart extends ContainerPage {
+
+export default class Cart extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             cartDetails: {},
         };
+
+        this.getProduct = this.getProduct.bind(this);
+    }
+
+    componentDidMount() {
+        const { user } = this.props;
+
+        getCartResponse(user)
+            .then(cartDetails => this.setState({ cartDetails }))
+            .catch(status => console.warn(status));
     }
 
     getProductLink = productId => `/products/${productId}`;
@@ -50,7 +61,7 @@ export default class Cart extends ContainerPage {
     render() {
         const { cartDetails } = this.state;
 
-        if (!this.isCartEmpty(cartDetails)) {
+        if (!isCartEmpty(cartDetails)) {
             return <Label>Your Cart is empty.Please add item to your cart</Label>;
         }
 
@@ -66,11 +77,11 @@ export default class Cart extends ContainerPage {
                             <th>Quantity</th>
                         </tr>
                     </thead>
-                    <tbody>{this.getCartProducts()}</tbody>
+                    <tbody>{getCartProducts(cartDetails, this.getProduct)}</tbody>
                 </Table>
                 <div className="table-row">
                     <Label className="table-final-row">
-                        {`SubTotal: ${this.getTotalPrice()}`}
+                        {`SubTotal: ${getTotalPrice(cartDetails.totalPrice)}`}
                     </Label>
                 </div>
             </div>

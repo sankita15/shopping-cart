@@ -1,9 +1,9 @@
 import React from 'react';
 import { Card, Label, CardText, Col, CardBody, Button, Media, Row, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
-import ContainerPage from './ContainerPage';
+import { getCartProducts, getCartResponse, getTotalPrice, isCartEmpty } from './CartAvailability';
 
-export default class OrderPage extends ContainerPage {
+export default class OrderPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,7 +12,15 @@ export default class OrderPage extends ContainerPage {
             isDisabled: false,
         };
 
-        console.log(JSON.stringify(this.state),"--------------------------------")
+        this.getProduct = this.getProduct.bind(this);
+    }
+
+    componentDidMount() {
+        const { user } = this.props;
+
+        getCartResponse(user)
+            .then(cartDetails => this.setState({ cartDetails }))
+            .catch(status => console.warn(status));
     }
 
     getProduct = ({ id, productName, productCode, price, imageUrl, starRating }, productQuantity) => {
@@ -72,14 +80,11 @@ export default class OrderPage extends ContainerPage {
     }
 
     render() {
-        // console.log(JSON.stringify(this.state),"---------_________________________-----------------------")
-
         const { user } = this.props;
-        const { showAlert, isDisabled } = this.state;
-        const { cartDetails } = this.props;
+        const { showAlert, isDisabled, cartDetails } = this.state;
         const delivery = 40;
 
-        if (!this.isCartEmpty(cartDetails)) {
+        if (!isCartEmpty(cartDetails)) {
             return <Label>Your Cart is empty.Please add item to your cart</Label>;
         }
 
@@ -91,7 +96,7 @@ export default class OrderPage extends ContainerPage {
                     <Col sm={8}>
                         <Card className="order-card">
                             {
-                                this.getCartProducts()
+                                getCartProducts(cartDetails, this.getProduct)
                             }
                         </Card>
                     </Col>
@@ -99,7 +104,7 @@ export default class OrderPage extends ContainerPage {
                         <Card className="order-value-card">
                             <CardBody className="order-price">
                                 <CardText className="order-summary">Order Summary</CardText>
-                                <CardText>{`Items Price: ${this.getTotalPrice()}`}</CardText>
+                                <CardText>{`Items Price: ${getTotalPrice(cartDetails.totalPrice)}`}</CardText>
                                 <CardText>
                                     {' '}
                                     {`Delivery: Rs ${delivery}`}
@@ -107,7 +112,7 @@ export default class OrderPage extends ContainerPage {
                                 </CardText>
                                 <CardText>
                                     {' '}
-                                    {`Cart Total: Rs ${this.getTotalPrice() + delivery}`}
+                                    {`Cart Total: Rs ${getTotalPrice(cartDetails.totalPrice) + delivery}`}
                                     {' '}
                                 </CardText>
                                 <Button className="place-order-button" disabled={isDisabled} onClick={() => this.placeOrder()}>Place Your Order</Button>
