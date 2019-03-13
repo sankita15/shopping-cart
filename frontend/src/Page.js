@@ -17,7 +17,7 @@ const Page = props => (
             <Route exact path={['/', '/products']}>
                 <Products {...props} />
             </Route>
-            <Route exact path="/login">
+            <Route exact path={['/logout', '/login']}>
                 <LoginPage {...props} />
             </Route>
             <Route exact path="/carts">
