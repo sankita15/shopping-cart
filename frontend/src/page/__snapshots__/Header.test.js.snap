@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Description render header should match snapshot 1`] = `
+<div
+  className="header"
+>
+  <Nav
+    tag="ul"
+    vertical={false}
+  >
+    <NavItem
+      tag="li"
+    >
+      <NavLink
+        className="icon"
+        tag="a"
+      >
+        <FaViadeo
+          size={45}
+        />
+      </NavLink>
+    </NavItem>
+    <NavItem
+      tag="li"
+    >
+      <NavLink
+        className="link"
+        href="/products"
+        tag="a"
+      >
+        Home
+      </NavLink>
+    </NavItem>
+    <Dropdown
+      active={false}
+      addonType={false}
+      direction="down"
+      inNavbar={false}
+      isOpen={false}
+      nav={true}
+      setActiveFromChild={false}
+      toggle={[Function]}
+    >
+      <DropdownToggle
+        aria-haspopup={true}
+        className="profile"
+        color="secondary"
+        nav={true}
+      >
+        <FaUser
+          size={20}
+        />
+      </DropdownToggle>
+      <DropdownMenu
+        flip={true}
+        tag="div"
+      >
+        <DropdownItem
+          href="/profile"
+          tag="button"
+          toggle={true}
+        >
+          Profile
+        </DropdownItem>
+        <DropdownItem
+          href="/logout"
+          tag="button"
+          toggle={true}
+        >
+          Log Out
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
+  </Nav>
+</div>
+`;
