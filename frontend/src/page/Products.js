@@ -1,5 +1,6 @@
 import React from 'react';
 import Item from '../components/Item';
+import Header from './Header';
 
 
 export default class Products extends React.Component {
@@ -28,7 +29,8 @@ export default class Products extends React.Component {
 
         return (
             <div className="product-login">
-                {products.map(({productName, price, description, imageUrl, id}) => (
+                <Header />
+                {products.map(({ productName, price, description, imageUrl, id }) => (
                     <Item
                         productName={productName}
                         price={price}
