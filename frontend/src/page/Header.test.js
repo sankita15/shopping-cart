@@ -1,7 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { Nav, NavLink, NavItem, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
-import { FaViadeo, FaUser } from 'react-icons/fa';
+import { Nav, NavLink, NavItem } from 'reactstrap';
+import { FaViadeo } from 'react-icons/fa';
+import { GoSignOut } from 'react-icons/go';
 import Header from './Header';
 
 describe('Header Description', () => {
@@ -20,12 +21,13 @@ describe('Header Description', () => {
             const icon = component.find(Nav).find(NavItem).at(0).find(NavLink)
                 .find(FaViadeo);
             const home = component.find(Nav).find(NavItem).at(1).find(NavLink);
-            const profile = component.find(Dropdown).find(DropdownToggle).find(FaUser);
+            const logout = component.find(Nav).find(NavItem).at(2).find(NavLink)
+                .find(GoSignOut);
 
             expect(icon.length).toEqual(1);
             expect(home.length).toEqual(1);
             expect(home.prop('children')).toEqual('Home');
-            expect(profile.length).toEqual(1);
+            expect(logout.length).toEqual(1);
         });
     });
 
@@ -39,23 +41,13 @@ describe('Header Description', () => {
         });
     });
 
-    describe('Profile Icon', () => {
-        it('should redirect to profile page when click on Profile icon and select profile', () => {
-            const component = createWrapper();
-            const account = component.find(Dropdown);
-            const profileSelect = account.find(DropdownMenu).find(DropdownItem).at(0);
-            const profileRedirection = profileSelect.prop('href');
-
-            expect(profileRedirection).toBe('/profile');
-        });
-
+    describe('LogOut Icon', () => {
         it('should log out when click on Profile icon and select log out', () => {
             const component = createWrapper();
-            const account = component.find(Dropdown);
-            const profileSelect = account.find(DropdownMenu).find(DropdownItem).at(1);
-            const profileRedirection = profileSelect.prop('href');
+            const logout = component.find(Nav).find(NavItem).at(2).find(NavLink);
+            const logOutRedirection = logout.prop('href');
 
-            expect(profileRedirection).toBe('/logout');
+            expect(logOutRedirection).toBe('/logout');
         });
     });
 });

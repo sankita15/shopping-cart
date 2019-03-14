@@ -8,7 +8,6 @@ import Cart from './page/Cart';
 import OrderPage from './page/OrderPage';
 import RegistrationPage from './page/RegistrationPage';
 
-
 // const ItemDescriptionWrapper = ({ match: { params: { id } } }, props) => <ItemDescription id={id} {...props}/>;
 
 const Page = props => (

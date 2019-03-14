@@ -31,46 +31,19 @@ exports[`Header Description render header should match snapshot 1`] = `
         Home
       </NavLink>
     </NavItem>
-    <Dropdown
-      active={false}
-      addonType={false}
-      direction="down"
-      inNavbar={false}
-      isOpen={false}
-      nav={true}
-      setActiveFromChild={false}
-      toggle={[Function]}
+    <NavItem
+      tag="li"
     >
-      <DropdownToggle
-        aria-haspopup={true}
-        className="profile"
-        color="secondary"
-        nav={true}
+      <NavLink
+        className="log-out"
+        href="/logout"
+        tag="a"
       >
-        <FaUser
-          size={20}
+        <GoSignOut
+          size={25}
         />
-      </DropdownToggle>
-      <DropdownMenu
-        flip={true}
-        tag="div"
-      >
-        <DropdownItem
-          href="/profile"
-          tag="button"
-          toggle={true}
-        >
-          Profile
-        </DropdownItem>
-        <DropdownItem
-          href="/logout"
-          tag="button"
-          toggle={true}
-        >
-          Log Out
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+      </NavLink>
+    </NavItem>
   </Nav>
 </div>
 `;

@@ -1,27 +1,10 @@
 import React from 'react';
-import { Nav, NavLink, NavItem, Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
-import { FaViadeo, FaUser } from 'react-icons/fa';
+import { Nav, NavLink, NavItem } from 'reactstrap';
+import { FaViadeo } from 'react-icons/fa';
+import { GoSignOut } from 'react-icons/go';
 
 export default class Header extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.toggle = this.toggle.bind(this);
-
-        this.state = {
-            dropdown: false,
-        };
-    }
-
-    toggle() {
-        const { dropdown } = this.state;
-        this.setState({
-            dropdown: !dropdown,
-        });
-    }
-
     render() {
-        const { dropdown } = this.state;
         return (
             <div className="header">
                 <Nav>
@@ -35,19 +18,11 @@ export default class Header extends React.Component {
                             Home
                         </NavLink>
                     </NavItem>
-                    <Dropdown nav isOpen={dropdown} toggle={this.toggle}>
-                        <DropdownToggle nav className="profile">
-                            <FaUser size={20} />
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem href="/profile">
-                                Profile
-                            </DropdownItem>
-                            <DropdownItem href="/logout">
-                                Log Out
-                            </DropdownItem>
-                        </DropdownMenu>
-                    </Dropdown>
+                    <NavItem>
+                        <NavLink href="/logout" className="log-out">
+                            <GoSignOut size={25} />
+                        </NavLink>
+                    </NavItem>
                 </Nav>
             </div>
         );
